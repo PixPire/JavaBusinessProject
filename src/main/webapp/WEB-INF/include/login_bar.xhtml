@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition>
+        <p:panel header="Użytkownik" >
+            <h:form id="optionForm">
+                <p:outputPanel rendered="#{!userBean.logged}">
+                    <p:button value="Zaloguj" outcome="/login.xhtml" style="margin-right: 10px;" >
+                        <f:param name="new" value="true" />
+                    </p:button>
+                    <h:outputText value="Nie jesteś zalogowany! Dane do przykladowego logowania: użytkownik:test, hasło:test"/>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{userBean.logged}">
+                    <p:commandButton value="Wyloguj" action="#{loginController.onLogout}" style="margin-right: 10px;"/>
+                    <h:outputText value="Jesteś zalogowany jako: #{userBean.login}"/>
+                    <h:outputText value="Dodany produkt : #{userBean.login}"/>
+                </p:outputPanel>
+            </h:form>
+        </p:panel>
+    </ui:composition>
+</h:body>
+</html>

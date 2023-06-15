@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>demo</title>
+        <h:outputStylesheet name="css/app.css"/>
+    </h:head>
+    <h:body>
+        <div id="toolbar">
+            <ui:insert name="toolbar"></ui:insert>
+        </div>
+        <div id="content">
+            <ui:insert name="content"></ui:insert>
+            <ui:insert name="productContent"></ui:insert>
+        </div>
+        <div id="footer">
+            <ui:insert name="footer"></ui:insert>
+        </div>
+    </h:body>
+</html>
+

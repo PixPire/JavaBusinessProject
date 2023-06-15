@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+    <h:body>
+        <ui:composition template="/WEB-INF/templates/template.xhtml" >
+            <ui:define name="content">
+                <h:form>
+                    <p:panel header="Log in">
+                        <p:growl id="growl" sticky="true"  life="3000" />
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel for="login" value="Login" />
+                            <p:inputText id="login" value="#{loginController.login}" required="true"  />
+                            <p:outputLabel for="password" value="Hasło" />
+                            <p:password id="password" value="#{loginController.password}" required="true"  />
+                        </h:panelGrid>
+                        <p:commandButton value="Zaloguj" ajax="false" update="growl" action="#{loginController.onLogin}" />
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
