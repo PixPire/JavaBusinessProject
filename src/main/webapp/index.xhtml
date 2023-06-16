@@ -10,10 +10,17 @@
 <h:body>
     <ui:composition template="/WEB-INF/templates/template.xhtml">
 
-        <ui:define name="toolbar">
-            <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
+        <!--<ui:define name="toolbarLoginRestricted">
+            <ui:include name="formId" value="optionForm1" src="/WEB-INF/include/login_bar.xhtml"></ui:include>
             <p:panel header="Zasoby" toggleable="true" style="margin-top:10px; margin-bottom: 10px;">
                 <p:link value="Strona dostępna tylko dla zalogowanych użytkowników" outcome="/restricted/restricted.xhtml" />
+            </p:panel>
+        </ui:define>-->
+
+        <ui:define name="basketContent">
+            <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
+            <p:panel header="Koszyk" toggleable="true" style="margin-top:10px; margin-bottom: 10px;">
+                <p:link value="Koszyk dostępny tylko dla zalogowanych użytkowników" outcome="/restricted/basket.xhtml" />
             </p:panel>
         </ui:define>
 
@@ -135,7 +142,7 @@
             </p:confirmDialog>
         </ui:define>
 
-        <ui:define name="productContent">
+        <ui:define name="content2">
             <h:form id="mainFormProduct">
                 <p:growl id="growl" showDetail="true" showSummary="false"  keepAlive=""   />
                 <p:dataTable id="productTable" value="#{productController.products}" var="product"  rowKey="#{product.uid}"

@@ -1,6 +1,10 @@
 package wipb.jsfcruddemo.web;
 
+import wipb.jsfcruddemo.web.dao.BasketDao;
+import wipb.jsfcruddemo.web.dao.ProductDao;
 import wipb.jsfcruddemo.web.dao.UserDao;
+import wipb.jsfcruddemo.web.model.Basket;
+import wipb.jsfcruddemo.web.model.Product;
 import wipb.jsfcruddemo.web.model.User;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +18,7 @@ import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthent
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +74,11 @@ public class Configuration {
                 initDatabase();
         }
 
+        @EJB
+        private ProductDao productDao;
+        @EJB
+        private BasketDao basketDao;
+
         private void initDatabase() {
                 User u = new User();
                 u.setLogin("test");
@@ -76,6 +86,34 @@ public class Configuration {
                 u.setEmail("test@test.pl");
                 u.addGroup("ROLE_USER");
                 userDao.save(u);
+
+                Product p = new Product("produkt testowy1", "test", new BigDecimal(100.99));
+                productDao.save(p);
+                Product p2 = new Product("produkt testowy2", "test", new BigDecimal(2000));
+                productDao.save(p2);
+                Product p4 = new Product("produkt testowy9000", "test", new BigDecimal(9000));
+                productDao.save(p4);
+                Basket b = new Basket("Created", u);
+                b.addProduct(p);
+                b.addProduct(p2);
+                b.addProduct(p4);
+                basketDao.save(b);
+
+                User u2 = new User();
+                u2.setLogin("admin");
+                u2.setPassword(pbkdf.generate("admin".toCharArray()));
+                u2.setEmail("admin@admin.pl");
+                u2.addGroup("ROLE_USER");
+
+                Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
+                productDao.save(p5);
+                Basket b2 = new Basket("Created", u2);
+                b2.addProduct(p5);
+                basketDao.save(b2);
+                userDao.save(u2);
+
+                Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
+                productDao.save(p3);
         }
 }
 

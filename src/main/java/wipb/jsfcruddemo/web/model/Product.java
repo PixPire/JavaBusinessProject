@@ -1,27 +1,23 @@
 package wipb.jsfcruddemo.web.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 })
 @Entity
 public class Product extends  AbstractModel{
+    @ManyToMany(mappedBy = "products")
+    private List<Basket> baskets = new ArrayList<>();
     private String name;
     private String category;
     @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price = new BigDecimal(0);
 
     public Product(){}
-    /*public Product(String name, BigDecimal price)
-    {
-        this.name = name;
-        this.price = price;
-    }*/
     public Product(String name, String category, BigDecimal price)
     {
         this.name = name;
@@ -61,5 +57,13 @@ public class Product extends  AbstractModel{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+
+    public List<Basket> getBaskets() {
+        return baskets;
+    }
+    public void setBaskets(List<Basket> baskets) {
+        this.baskets = baskets;
     }
 }

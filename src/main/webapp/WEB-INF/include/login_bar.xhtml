@@ -20,7 +20,6 @@
                 <p:outputPanel rendered="#{userBean.logged}">
                     <p:commandButton value="Wyloguj" action="#{loginController.onLogout}" style="margin-right: 10px;"/>
                     <h:outputText value="Jesteś zalogowany jako: #{userBean.login}"/>
-                    <h:outputText value="Dodany produkt : #{userBean.login}"/>
                 </p:outputPanel>
             </h:form>
         </p:panel>

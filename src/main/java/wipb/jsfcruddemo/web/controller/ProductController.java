@@ -3,6 +3,7 @@ package wipb.jsfcruddemo.web.controller;
 import wipb.jsfcruddemo.web.model.Product;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -18,9 +19,7 @@ public class ProductController implements Serializable {
     private Product editedProduct;
 
     @PostConstruct
-    private void init() {
-        products = productService.findAll();
-    }
+    private void init() { products = productService.findAll(); }
 
     public List<Product> getProducts() {
         return products;

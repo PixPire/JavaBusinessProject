@@ -1,6 +1,7 @@
 package wipb.jsfcruddemo.web.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class User extends AbstractModel {
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserGroup> userGroups = new LinkedList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Basket basket;
 
     public User() {
     }
