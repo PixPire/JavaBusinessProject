@@ -15,7 +15,7 @@ public interface BasketService {
     List<Basket> findAll();
 
     Basket findByUser(User user);
-    void addProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount);
+    void addEditProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount);
     void deleteProductFromBasket(Basket basket, Product product);
 }
 

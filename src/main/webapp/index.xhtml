@@ -144,16 +144,16 @@
                     <f:facet name="header">
                         Produkty
                     </f:facet>
-                    <p:column headerText="Nazwa" >
+                    <p:column headerText="Nazwa" style="text-align: center;">
                         #{product.name}
                     </p:column>
-                    <p:column headerText="Kategoria">
+                    <p:column headerText="Kategoria" style="text-align: center;">
                         #{product.category}
                     </p:column>
-                    <p:column headerText="Cena" >
+                    <p:column headerText="Cena" style="text-align: center;">
                         #{product.price}
                     </p:column>
-                    <p:column headerText="Dodaj do koszyka" width="80" style="text-align: center;" rendered="#{userBean.logged}">
+                    <p:column headerText="Dodaj do koszyka" width="150" style="text-align: center;" rendered="#{userBean.logged}">
                         <p:commandButton icon="fa fa-fw fa-cart-plus"  title="Dodaj do koszyka" rendered="#{userBean.logged}" action="#{basketProductController.onAddBasketProduct(product)}" process="@this" update=":addProductToBasketDlg" oncomplete="PF('addProductToBasketDlg').show()" />
                     </p:column>
                     <p:column headerText="Edytuj" width="80" style="text-align: center;">

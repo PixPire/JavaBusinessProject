@@ -94,7 +94,7 @@ public class Configuration {
                 Product p4 = new Product("produkt testowy9000", "test", new BigDecimal(9000));
                 productDao.save(p4);
                 Basket b = new Basket("Created", u);
-                b.addProduct(p, new BigDecimal(1), new BigDecimal(0));
+                b.addProduct(p, new BigDecimal(1), new BigDecimal(10));
                 b.addProduct(p2, new BigDecimal(2), new BigDecimal(0));
                 b.addProduct(p4, new BigDecimal(4), new BigDecimal(0));
                 basketDao.save(b);
@@ -109,7 +109,7 @@ public class Configuration {
                 productDao.save(p5);
                 Basket b2 = new Basket("Created", u2);
                 b2.addProduct(p5, new BigDecimal(5000), new BigDecimal(0));
-                b2.addProduct(p2, new BigDecimal(2000), new BigDecimal(0));
+                b2.addProduct(p2, new BigDecimal(2000), new BigDecimal(50));
                 basketDao.save(b2);
                 userDao.save(u2);
 

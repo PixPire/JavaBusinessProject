@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 @Stateless
 public class BasketServiceImpl implements BasketService {
+    private static Logger logger = Logger.getLogger(BasketServiceImpl.class.getName());
     @EJB
     private BasketDao basketDao;
 
@@ -43,7 +44,13 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void addProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+    public void addEditProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+        logger.severe("Wywolal sie serwis addProdutToBasket");
+        logger.severe("Basket = " + basket + " Product = " + product + " ilosc = " + numberOfProductsInBasket);
+        BasketProduct bp = basketDao.findBasketProduct(basket, product);
+        logger.severe("Znaleziono " + bp);
+        if(bp != null)
+            deleteProductFromBasket(basket, product);
         basket.addProduct(product, numberOfProductsInBasket, specialDiscount);
         save(basket);
     }

@@ -53,6 +53,7 @@ public class ProductController implements Serializable {
         products.replaceAll(c-> c != editedProduct ? c : saved);
 
         editedProduct = null;
+        logger.severe("SAVE PRODUCT");
     }
 
     public void onRemoveProduct(Product c) {
@@ -63,5 +64,6 @@ public class ProductController implements Serializable {
     public void onCancelProduct() {
         products.replaceAll(c-> c != editedProduct ? c : productService.findById(editedProduct.getId()));
         editedProduct = null;
+        logger.severe("CANCEL PRODUCT");
     }
 }

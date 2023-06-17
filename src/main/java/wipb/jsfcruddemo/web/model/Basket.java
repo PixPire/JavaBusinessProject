@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @NamedQuery(name = "Basket.findBasketByUser", query ="select b from Basket b where b.user=?1")
+@NamedQuery(name = "Basket.findBasketProduct", query = "select bp from BasketProduct bp where bp.basket=?1 and bp.product=?2")
 public class Basket extends AbstractModel{
     private String basketStatus;
     @OneToOne

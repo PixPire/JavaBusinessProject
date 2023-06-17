@@ -10,6 +10,7 @@ import wipb.jsfcruddemo.web.service.BasketService;
 import wipb.jsfcruddemo.web.service.UserService;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -66,48 +67,39 @@ public class BasketProductController implements Serializable {
         clickedProduct = product;
         logger.severe("Kod znizkowy = " + discountCode);
         editedBasketProduct = new BasketProduct();
+        editedBasketProduct.setBasket(actualBasket);
+        editedBasketProduct.setProduct(clickedProduct);
+    }
+
+    public void onEditBasketProduct(BasketProduct bp) {
+        logger.severe("EDIT WYWOLANE: " + bp);
+        editedBasketProduct = bp;
+        /*if(discountCode != null)
+            editedBasketProduct.sp*/
+        logger.severe("editedBasketProduct = "+editedBasketProduct);
+        logger.severe("Liczba = " + editedBasketProduct.getNumberOfProductsInBasket());
+        logger.severe("Kod = " + editedBasketProduct.getSpecialDiscount());
     }
 
     public void onSaveBasketProduct() {
+        logger.severe("SAVE WYWOLANE");
         logger.severe("JAKIMS CUDEM CHYBA NAWET DZIALA CZESCIOWO");
-        if (editedBasketProduct.getId() == null) {
-            editedBasketProduct.setBasket(actualBasket);
-            editedBasketProduct.setProduct(clickedProduct);
-            basketProducts.add(editedBasketProduct);
-            logger.severe("editBasketProduct bylo null");
-        }
-        logger.severe("editBasketProduct bylo " + editedBasketProduct);
-
-        logger.severe("\n\neditedBasketProduct = " + editedBasketProduct);
-        logger.severe("\n\nbasket = " + actualBasket);
-        logger.severe("\n\nbasketProducts = " + basketProducts);
-
-        Basket saved = basketService.save(editedBasketProduct.getBasket());
-
+        logger.severe("editedBasketProduct = "+editedBasketProduct);
+        basketService.addEditProductToBasket(editedBasketProduct.getBasket(), editedBasketProduct.getProduct(), editedBasketProduct.getNumberOfProductsInBasket(), editedBasketProduct.getSpecialDiscount());
+        logger.severe("DZIALA onSaveBasketProduct");
         editedBasketProduct = null;
-
-        /*Basket previousBasket = editedBasketProduct.getBasket();
-        //Basket editedBasket = basketService.save(previousBasket);
-
-        BasketProduct saved = actualBasket.getBasketProducts().get(editedBasketProduct.getId().intValue());
-        basketProducts.replaceAll(c-> c != editedBasketProduct ? c : saved);
-
-        editedBasketProduct = null;*/
     }
 
     public void onRemoveProductFromBasket(BasketProduct basketProduct) {
         logger.severe("Wywolalo sie chociaz usuniecie produktu z koszyka");
-        Basket basket = basketProduct.getBasket();
-        basket.removeProduct(basketProduct.getProduct());
-        basketProducts.remove(basketProduct);
-        basketService.save(basket);
+        basketService.deleteProductFromBasket(basketProduct.getBasket(), basketProduct.getProduct());
     }
 
     public void onCancelBasketProduct() {
         logger.severe("CANCEL WYWOLANE");
-        /*basketProducts.replaceAll(c -> c.getBasket() != editedBasketProduct.getBasket() ? c : basketService.findById(editedBasketProduct.getBasket().getId()).getBasketProducts().get(editedBasketProduct.getId().intValue()));
-        editedBasketProduct = null;*/
         editedBasketProduct = null;
+        clickedProduct = null;
+        logger.severe("editedBasketProduct = " + editedBasketProduct);
     }
 
     public String getDiscountCode(){
