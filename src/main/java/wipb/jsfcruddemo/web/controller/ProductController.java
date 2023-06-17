@@ -13,6 +13,7 @@ import wipb.jsfcruddemo.web.service.ProductService;
 @Named
 @ViewScoped
 public class ProductController implements Serializable {
+    private static Logger logger = Logger.getLogger(ProductController.class.getName());
     @EJB
     private ProductService productService;
     private List<Product> products;
@@ -44,7 +45,9 @@ public class ProductController implements Serializable {
     public void onSaveProduct() {
         if (editedProduct.getId() == null) {
             products.add(editedProduct);
+            logger.severe("editProduct bylo null");
         }
+        logger.severe("editProduct bylo =" + editedProduct);
 
         Product saved = productService.save(editedProduct);
         products.replaceAll(c-> c != editedProduct ? c : saved);

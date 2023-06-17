@@ -1,13 +1,15 @@
 package wipb.jsfcruddemo.web.service;
 
-import wipb.jsfcruddemo.web.controller.BasketController;
+import wipb.jsfcruddemo.web.controller.BasketProductController;
 import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.model.Basket;
+import wipb.jsfcruddemo.web.model.BasketProduct;
 import wipb.jsfcruddemo.web.model.Product;
 import wipb.jsfcruddemo.web.model.User;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,13 +43,15 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void addProductToBasket(Basket basket, Product product) {
-        basket.addProduct(product);
+    public void addProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+        basket.addProduct(product, numberOfProductsInBasket, specialDiscount);
+        save(basket);
     }
 
     @Override
     public void deleteProductFromBasket(Basket basket, Product product) {
         basket.removeProduct(product);
+        save(basket);
     }
 
 }

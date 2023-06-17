@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
 </h:head>
 <h:body>
@@ -13,47 +13,41 @@
             <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
         </ui:define>
         <ui:define name="content">
-            <h1>Koszyk użytkownika</h1>
+            <h1>Koszyk użytkownika #{userBean.login}</h1>
             <p:link value="Wróć" outcome="/index.xhtml" />
         </ui:define>
 
 
         <ui:define name="content2">
-            <h:form id="mainFormBasket">
+            <h:form id="mainFormBasketProduct">
                 <p:growl id="growl" showDetail="true" showSummary="false"  keepAlive=""   />
-                <p:dataTable id="basketTable" value="#{basketController.basket.products}" var="product"  rowKey="#{basket.uid}"
-                             emptyMessage="Brak produktów w koszyku, dodaj nowy produkt"
+                <p:dataTable id="basketProductTable" value="#{basketProductController.basketProducts}" var="basketProduct"  rowKey="#{basketProduct.uid}"
+                             emptyMessage="Brak produktów w koszyku"
                              paginator="true"
-                             paginatorAlwaysVisible="false"
+                             paginatorAlwaysVisible = "false"
                              paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              rows="10"
-                             rowsPerPageTemplate="10">
+                             rowsPerPageTemplate="10" >
                     <f:facet name="header">
-                        Koszyk użytkownika #{basketController.basket.user.login}
+                        Produkty w koszyku
                     </f:facet>
-                    <p:column headerText="Nazwa" >
-                        #{product.name}
+                    <p:column headerText="Ilosc" >
+                        #{basketProduct.numberOfProductsInBasket}
                     </p:column>
-                    <p:column headerText="Kategoria">
-                        #{product.category}
+                    <p:column headerText="Produkt">
+                        #{basketProduct.product.name}
                     </p:column>
-                    <p:column headerText="Cena" >
-                        #{product.price}
+                    <p:column headerText="Znizka" >
+                        #{basketProduct.specialDiscount}
                     </p:column>
                     <p:column headerText="Usuń" width="80" style="text-align: center;">
-                        <p:commandButton icon="fa fa-fw fa-remove" title="Usuń" action="#{basketController.onRemoveProductFromBasket(basket)}" disabled="#{!userBean.logged}" process="@this" update=":mainFormBasket:basketTable" >
-                            <p:confirm message="Czy chcesz usunąć produkt?" icon="pi pi-exclamation-triangle" />
+                        <p:commandButton icon="fa fa-fw fa-remove" title="Usuń produkt z koszyka" action="#{basketProductController.onRemoveProductFromBasket(basketProduct)}" disabled="#{!userBean.logged}" process="@this" update=":mainFormBasketProduct:basketProductTable" >
                         </p:commandButton>
                     </p:column>
-                    <f:facet name="footer">
-                        <div>Okej</div>
-                    </f:facet>
                 </p:dataTable>
             </h:form>
         </ui:define>
-
-
     </ui:composition>
 </h:body>
 </html>

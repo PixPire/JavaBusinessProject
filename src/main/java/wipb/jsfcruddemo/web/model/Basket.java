@@ -1,7 +1,9 @@
 package wipb.jsfcruddemo.web.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -10,13 +12,8 @@ public class Basket extends AbstractModel{
     private String basketStatus;
     @OneToOne
     private User user;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "basket_product",
-            joinColumns = @JoinColumn(name = "basket_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BasketProduct> basketProducts = new ArrayList<>();
 
     public Basket() {}
 
@@ -33,13 +30,13 @@ public class Basket extends AbstractModel{
                 .append(user.toString())
                 .append(" lista produktów: ");
 
-        for (Product product : products) {
-            sb.append(product.getName())
+        for (BasketProduct basketProduct : basketProducts) {
+            sb.append(basketProduct)
                     .append(", ");
         }
 
         // Remove the trailing comma and space if there are products
-        if (!products.isEmpty()) {
+        if (!basketProducts.isEmpty()) {
             sb.delete(sb.length() - 2, sb.length());
         }
 
@@ -49,24 +46,37 @@ public class Basket extends AbstractModel{
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user;}
 
-    public List<Product> getProducts() { return products; }
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-    public void addProduct(Product product) {
-        products.add(product);
-        product.getBaskets().add(this);
-    }
-    public void removeProduct(Product product) {
-        products.remove(product);
-        product.getBaskets().remove(this);
-    }
-
     public String getBasketStatus() {
         return basketStatus;
     }
 
     public void setBasketStatus(String basketStatus) {
         this.basketStatus = basketStatus;
+    }
+
+    public List<BasketProduct> getBasketProducts() {
+        return basketProducts;
+    }
+
+    public void setBasketProducts(List<BasketProduct> basketProducts) {
+        this.basketProducts = basketProducts;
+    }
+
+    public void addProduct(Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+        BasketProduct basketProduct = new BasketProduct(this, product, numberOfProductsInBasket, specialDiscount);
+        basketProducts.add(basketProduct);
+        product.getBasketProducts().add(basketProduct);
+    }
+
+    public void removeProduct(Product product) {
+        for (Iterator<BasketProduct> iterator = basketProducts.iterator(); iterator.hasNext();) {
+            BasketProduct basketProduct = iterator.next();
+            if (basketProduct.getBasket().equals(this) && basketProduct.getProduct().equals(product)) {
+                iterator.remove();
+                basketProduct.getProduct().getBasketProducts().remove(basketProduct);
+                basketProduct.setBasket(null);
+                basketProduct.setProduct(null);
+            }
+        }
     }
 }
