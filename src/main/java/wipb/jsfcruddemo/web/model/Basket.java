@@ -36,10 +36,10 @@ public class Basket extends AbstractModel{
                     .append(", ");
         }
 
-        // Remove the trailing comma and space if there are products
+        /*// Remove the trailing comma and space if there are products
         if (!basketProducts.isEmpty()) {
             sb.delete(sb.length() - 2, sb.length());
-        }
+        }*/
 
         return sb.toString();
     }

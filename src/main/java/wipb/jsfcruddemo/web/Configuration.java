@@ -1,11 +1,14 @@
 package wipb.jsfcruddemo.web;
 
+import wipb.jsfcruddemo.web.controller.ProductController;
 import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.dao.ProductDao;
 import wipb.jsfcruddemo.web.dao.UserDao;
+import wipb.jsfcruddemo.web.dao.UserGroupDao;
 import wipb.jsfcruddemo.web.model.Basket;
 import wipb.jsfcruddemo.web.model.Product;
 import wipb.jsfcruddemo.web.model.User;
+import wipb.jsfcruddemo.web.model.UserGroup;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.sql.DataSourceDefinition;
@@ -21,6 +24,7 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @DataSourceDefinition(
     name = "java:global/JsfCrudDemoDataSource",
@@ -43,7 +47,7 @@ import java.util.Map;
 @DatabaseIdentityStoreDefinition(
         dataSourceLookup = "java:global/JsfCrudDemoDataSource",
         callerQuery = "SELECT password FROM \"USER\" WHERE login = ?",
-        groupsQuery = "SELECT ug.name FROM \"USER\" u JOIN USERGROUP ug ON u.id=ug.user_id WHERE u.login = ?",
+        groupsQuery = "SELECT ug.name FROM \"USER\" u JOIN USERGROUP ug ON u.usergroup_id=ug.id WHERE u.login = ?",
         hashAlgorithm = Pbkdf2PasswordHash.class,
         hashAlgorithmParameters = {
                 "Pbkdf2PasswordHash.Algorithm=PBKDF2WithHmacSHA512",
@@ -56,12 +60,16 @@ import java.util.Map;
 @Singleton
 @Startup
 public class Configuration {
+        private static Logger logger = Logger.getLogger(Configuration.class.getName());
 
         @Inject
         private Pbkdf2PasswordHash pbkdf;
 
         @EJB
         private UserDao userDao;
+
+        @EJB
+        private UserGroupDao userGroupDao;
 
         @PostConstruct
         private void init() {
@@ -80,12 +88,28 @@ public class Configuration {
         private BasketDao basketDao;
 
         private void initDatabase() {
-                User u = new User();
-                u.setLogin("test");
-                u.setPassword(pbkdf.generate("test".toCharArray()));
-                u.setEmail("test@test.pl");
-                u.addGroup("ROLE_USER");
+                logger.severe("Wywolano inicjalizacje bazy danych");
+
+                UserGroup ugAdmin = new UserGroup("ROLE_ADMIN");
+                UserGroup ugManager = new UserGroup("ROLE_MANAGER");
+                UserGroup ugClient = new UserGroup("ROLE_CLIENT");
+
+                userGroupDao.save(ugAdmin);
+                userGroupDao.save(ugManager);
+                userGroupDao.save(ugClient);
+
+                logger.severe("Utworzono grupy");
+
+
+                User u0 = new User("manager", pbkdf.generate("manager".toCharArray()), "manager@manager.pl", ugManager);
+                Basket b0 = new Basket("Created", u0);
+                basketDao.save(b0);
+                userDao.save(u0);
+
+                User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", ugClient);
                 userDao.save(u);
+
+                logger.severe("Zapisano 1 uzytkownika = " + u);
 
                 Product p = new Product("produkt testowy1", "test", new BigDecimal(100.99));
                 productDao.save(p);
@@ -103,7 +127,8 @@ public class Configuration {
                 u2.setLogin("admin");
                 u2.setPassword(pbkdf.generate("admin".toCharArray()));
                 u2.setEmail("admin@admin.pl");
-                u2.addGroup("ROLE_USER");
+                //u2.addGroup("ROLE_USER");
+                u2.setUserGroup(ugAdmin);
 
                 Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
                 productDao.save(p5);
@@ -115,6 +140,10 @@ public class Configuration {
 
                 Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
                 productDao.save(p3);
+        }
+
+        public String generateHashedPassword(String password){
+                return pbkdf.generate(password.toCharArray());
         }
 }
 

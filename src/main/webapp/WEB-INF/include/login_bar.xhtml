@@ -12,13 +12,16 @@
         <p:panel header="Użytkownik" >
             <h:form id="optionForm">
                 <p:outputPanel rendered="#{!userBean.logged}">
-                    <p:button value="Zaloguj" outcome="/login.xhtml" style="margin-right: 10px;" >
+                    <p:button value="Witamy w naszym sklepie internetowym" outcome="/index.html" disabled="true" style="background-color: #FFFFFF; color: #FFFFFF; border-color: #FFFFFF; font-weight: bold;" > </p:button>
+                    <p:button value="Zaloguj" outcome="/login.xhtml" style="float:right">
                         <f:param name="new" value="true" />
                     </p:button>
-                    <h:outputText value="Nie jesteś zalogowany! Dane do przykladowego logowania: użytkownik:test, hasło:test"/>
+                    <p:button value="Zarejestruj sie" outcome="/registration.xhtml" style="float:right">
+                        <f:param name="new" value="true" />
+                    </p:button>
                 </p:outputPanel>
                 <p:outputPanel rendered="#{userBean.logged}">
-                    <p:commandButton value="Wyloguj" action="#{loginController.onLogout}" style="margin-right: 10px;"/>
+                    <p:commandButton value="Wyloguj" action="#{loginController.onLogout}"/>
                     <h:outputText value="Jesteś zalogowany jako: #{userBean.login}"/>
                 </p:outputPanel>
             </h:form>

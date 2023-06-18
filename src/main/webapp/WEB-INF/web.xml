@@ -40,16 +40,45 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>User pages</web-resource-name>
-            <url-pattern>/restricted/*</url-pattern>
+            <url-pattern>/userRestricted/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>ROLE_USER</role-name>
+            <role-name>ROLE_ADMIN</role-name>
+            <role-name>ROLE_MANAGER</role-name>
+            <role-name>ROLE_CLIENT</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Manager pages</web-resource-name>
+            <url-pattern>/managerRestricted/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_ADMIN</role-name>
+            <role-name>ROLE_MANAGER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/adminRestricted/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_ADMIN</role-name>
         </auth-constraint>
     </security-constraint>
 
 
     <security-role>
-        <role-name>ROLE_USER</role-name>
+        <role-name>ROLE_ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROLE_MANAGER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROLE_CLIENT</role-name>
     </security-role>
 
 </web-app>

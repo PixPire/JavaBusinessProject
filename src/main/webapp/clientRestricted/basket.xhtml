@@ -9,7 +9,7 @@
 </h:head>
 <h:body>
     <ui:composition template="/WEB-INF/templates/template.xhtml">
-        <ui:define name="toolbar">
+        <ui:define name="toolbarLoginRegistration">
             <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
         </ui:define>
         <ui:define name="content">
@@ -18,7 +18,7 @@
         </ui:define>
 
 
-        <ui:define name="content2">
+        <ui:define name="basketContent">
             <h:form id="mainFormBasketProduct">
                 <p:growl id="growl" showDetail="true" showSummary="false"  keepAlive=""   />
                 <p:dataTable id="basketProductTable" value="#{basketProductController.basketProducts}" var="basketProduct"  rowKey="#{basketProduct.uid}"
@@ -55,9 +55,9 @@
                 <h:form id="editProductToBasketDlgForm" >
                     <h:panelGrid columns="2">
                         <p:outputLabel value="Ile produktow chcesz dodac do koszyka" for="@next"/>
-                        <p:inputText id="numberOfProductsInBasket" value="#{basketProductController.editedBasketProduct.numberOfProductsInBasket}" required="true" />
+                        <p:inputText id="numberOfProductsInBasket" value="#{basketProductController.editedBasketProduct.numberOfProductsInBasket}" required="true" type="number"/>
                         <p:outputLabel value="Podaj kod znizkowy" for="@next" />
-                        <p:inputText id="specialDiscount" value="#{basketProductController.discountCode}"  required="false" />
+                        <p:inputText id="specialDiscount" value="#{basketProductController.discountCode}" required="false" />
                     </h:panelGrid>
                     <p:commandButton value="Zapisz" action="#{basketProductController.onSaveBasketProduct()}" process="@form" update=":mainFormBasketProduct" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editProductToBasketDlg').hide()"  />
                     <p:commandButton  value="Anuluj" action="#{basketProductController.onCancelBasketProduct()}" process="@this" update=":mainFormBasketProduct:growl" oncomplete="PF('editProductToBasketDlg').hide()"  >

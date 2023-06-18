@@ -29,6 +29,20 @@ public class UserBean implements Serializable {
         return getLogin() != null;
     }
 
+    public boolean isAdmin(){
+        if(user.getUserGroup().getName() == "ROLE_ADMIN")
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isManager(){
+        if(user.getUserGroup().getName() == "ROLE_MANAGER")
+            return true;
+        else
+            return false;
+    }
+
     public String getLogin() {
         if (user != null) {
             return user.getLogin();

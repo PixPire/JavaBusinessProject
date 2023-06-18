@@ -13,9 +13,8 @@ public class User extends AbstractModel {
     private String password;
     @Column(unique = true)
     private String email;
-
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserGroup> userGroups = new LinkedList<>();
+    @ManyToOne
+    private UserGroup userGroup;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Basket basket;
@@ -23,11 +22,12 @@ public class User extends AbstractModel {
     public User() {
     }
 
-    public User(Long id, String login, String password, String email) {
-        super(id);
+    public User(String login, String password, String email, UserGroup userGroup) {
+        //super(id);
         this.login = login;
         this.password = password;
         this.email = email;
+        userGroup.addUser(this);
     }
 
     public String getLogin() {
@@ -54,22 +54,12 @@ public class User extends AbstractModel {
         this.email = email;
     }
 
-    public void setUserGroups(List<UserGroup> userGroups) {
-        this.userGroups = userGroups;
+    public UserGroup getUserGroup() {
+        return userGroup;
     }
 
-    public List<UserGroup> getUserGroups() {
-        return userGroups;
-    }
-
-    public void addGroup(String name) {
-        // sprawdzic czy już nie jest dodana
-        for (UserGroup us : userGroups) {
-            if (us.getName().equals(name)) {
-                throw new IllegalArgumentException();
-            }
-        }
-        userGroups.add(new UserGroup(name,this));
+    public void setUserGroup(UserGroup userGroup) {
+        this.userGroup = userGroup;
     }
 
     @Override
@@ -79,6 +69,7 @@ public class User extends AbstractModel {
                 ", login='" + login + '\'' +
                 ", password='****'" +
                 ", email='" + email + '\'' +
+                ", userGroup='" + userGroup.getName() + '\'' +
                 '}';
     }
 }
