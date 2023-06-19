@@ -1,8 +1,6 @@
 package wipb.jsfcruddemo.web.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -16,20 +14,28 @@ public class BasketProduct extends AbstractModel {
     private Product product;
 
     private BigDecimal numberOfProductsInBasket;
-    private BigDecimal specialDiscount;
+
+    @ManyToOne(optional = true)
+    private Discount discount;
 
     public BasketProduct() {}
 
-    public BasketProduct(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+//    public BasketProduct(Basket basket, Product product, BigDecimal numberOfProductsInBasket) {
+//        this.basket = basket;
+//        this.product = product;
+//        this.numberOfProductsInBasket = numberOfProductsInBasket;
+//    }
+
+    public BasketProduct(Basket basket, Product product, BigDecimal numberOfProductsInBasket, Discount discount) {
         this.basket = basket;
         this.product = product;
         this.numberOfProductsInBasket = numberOfProductsInBasket;
-        this.specialDiscount = specialDiscount;
+        this.discount = discount;
     }
 
     @Override
     public String toString() {
-        return "Koszyk " + basket.getUser() + "Product = " + product + "  numberOfProductsInBasket = " + numberOfProductsInBasket + "  specialDiscount = " + specialDiscount;
+        return "Koszyk " + basket.getUser() + "Product = " + product + "  numberOfProductsInBasket = " + numberOfProductsInBasket + "  discount = " + discount;
     }
 
     public Basket getBasket() {
@@ -56,12 +62,12 @@ public class BasketProduct extends AbstractModel {
         this.numberOfProductsInBasket = numberOfProductsInBasket;
     }
 
-    public BigDecimal getSpecialDiscount() {
-        return specialDiscount;
+    public Discount getDiscount() {
+        return discount;
     }
 
-    public void setSpecialDiscount(BigDecimal specialDiscount) {
-        this.specialDiscount = specialDiscount;
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }
 

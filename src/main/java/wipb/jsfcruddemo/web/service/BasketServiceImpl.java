@@ -2,10 +2,7 @@ package wipb.jsfcruddemo.web.service;
 
 import wipb.jsfcruddemo.web.controller.BasketProductController;
 import wipb.jsfcruddemo.web.dao.BasketDao;
-import wipb.jsfcruddemo.web.model.Basket;
-import wipb.jsfcruddemo.web.model.BasketProduct;
-import wipb.jsfcruddemo.web.model.Product;
-import wipb.jsfcruddemo.web.model.User;
+import wipb.jsfcruddemo.web.model.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -44,14 +41,14 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void addEditProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
+    public void addEditProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, Discount discount) {
         logger.severe("Wywolal sie serwis addProdutToBasket");
         logger.severe("Basket = " + basket + " Product = " + product + " ilosc = " + numberOfProductsInBasket);
         BasketProduct bp = basketDao.findBasketProduct(basket, product);
         logger.severe("Znaleziono " + bp);
         if(bp != null)
             deleteProductFromBasket(basket, product);
-        basket.addProduct(product, numberOfProductsInBasket, specialDiscount);
+        basket.addProduct(product, numberOfProductsInBasket, discount);
         save(basket);
     }
 

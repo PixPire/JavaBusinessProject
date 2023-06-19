@@ -19,20 +19,22 @@ public class User extends AbstractModel {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Basket basket;
 
+    private boolean isVip=false;
+
     public User() {
     }
 
-    public User(String login, String password, String email) {
-        //super(id);
+    public User(String login, String password, String email, Boolean isVip) {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.isVip = isVip;
     }
-    public User(String login, String password, String email, UserGroup userGroup) {
-        //super(id);
+    public User(String login, String password, String email, Boolean isVip, UserGroup userGroup) {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.isVip = isVip;
         userGroup.addUser(this);
     }
 
@@ -77,5 +79,13 @@ public class User extends AbstractModel {
                 ", email='" + email + '\'' +
                 ", userGroup='" + userGroup.getName() + '\'' +
                 '}';
+    }
+
+    public boolean isVip() {
+        return isVip;
+    }
+
+    public void setVip(boolean vip) {
+        isVip = vip;
     }
 }

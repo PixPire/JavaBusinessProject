@@ -1,14 +1,8 @@
 package wipb.jsfcruddemo.web;
 
 import wipb.jsfcruddemo.web.controller.ProductController;
-import wipb.jsfcruddemo.web.dao.BasketDao;
-import wipb.jsfcruddemo.web.dao.ProductDao;
-import wipb.jsfcruddemo.web.dao.UserDao;
-import wipb.jsfcruddemo.web.dao.UserGroupDao;
-import wipb.jsfcruddemo.web.model.Basket;
-import wipb.jsfcruddemo.web.model.Product;
-import wipb.jsfcruddemo.web.model.User;
-import wipb.jsfcruddemo.web.model.UserGroup;
+import wipb.jsfcruddemo.web.dao.*;
+import wipb.jsfcruddemo.web.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.sql.DataSourceDefinition;
@@ -22,6 +16,7 @@ import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +82,8 @@ public class Configuration {
         private ProductDao productDao;
         @EJB
         private BasketDao basketDao;
+        @EJB
+        private DiscountDao discountDao;
 
         private void initDatabase() {
                 logger.severe("Wywolano inicjalizacje bazy danych");
@@ -107,12 +104,12 @@ public class Configuration {
                         userGroupDao.save(ugClient);
                         logger.severe("Utworzono grupy");
 
-                        User u0 = new User("manager", pbkdf.generate("manager".toCharArray()), "manager@manager.pl", ugManager);
+                        User u0 = new User("manager", pbkdf.generate("manager".toCharArray()), "manager@manager.pl", true ,ugManager);
                         Basket b0 = new Basket("Created", u0);
                         basketDao.save(b0);
                         userDao.save(u0);
 
-                        User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", ugClient);
+                        User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", false ,ugClient);
                         userDao.save(u);
 
                         logger.severe("Zapisano 1 uzytkownika = " + u);
@@ -124,9 +121,24 @@ public class Configuration {
                         Product p4 = new Product("produkt testowy9000", "test", new BigDecimal(9000));
                         productDao.save(p4);
                         Basket b = new Basket("Created", u);
-                        b.addProduct(p, new BigDecimal(1), new BigDecimal(10));
-                        b.addProduct(p2, new BigDecimal(2), new BigDecimal(0));
-                        b.addProduct(p4, new BigDecimal(4), new BigDecimal(0));
+
+                        LocalDateTime now = LocalDateTime.now();
+
+                        LocalDateTime startedDate = now.minusYears(1);
+                        LocalDateTime endedDate = now.plusYears(1);
+
+                        logger.severe("daty dzialaja");
+
+                        Discount d1 = new Discount("super", new BigDecimal(50), startedDate, endedDate, false);
+                        discountDao.save(d1);
+                        Discount d2 = new Discount("ok", new BigDecimal(10), startedDate, endedDate, true);
+                        discountDao.save(d2);
+
+                        logger.severe("zapisano discount = " + d1);
+
+                        b.addProduct(p, new BigDecimal(1), d1);
+                        b.addProduct(p2, new BigDecimal(2), d1);
+                        b.addProduct(p4, new BigDecimal(4), null);
                         basketDao.save(b);
 
                         User u2 = new User();
@@ -138,8 +150,8 @@ public class Configuration {
                         Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
                         productDao.save(p5);
                         Basket b2 = new Basket("Created", u2);
-                        b2.addProduct(p5, new BigDecimal(5000), new BigDecimal(0));
-                        b2.addProduct(p2, new BigDecimal(2000), new BigDecimal(50));
+                        b2.addProduct(p5, new BigDecimal(5000), d1);
+                        b2.addProduct(p2, new BigDecimal(2000), d1);
                         basketDao.save(b2);
                         userDao.save(u2);
 

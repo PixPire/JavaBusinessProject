@@ -119,7 +119,7 @@ public class RegistrationController implements Serializable {
 
         logger.severe("Login = " + login + " Email = " + email + " password = " + password + " + confirmedPassword = " + confirmedPassword + " userGroupName = " + userGroupDao.findUserGroupByName(userGroupName));
 
-        User u = new User(login, configuration.generateHashedPassword(password), email, userGroupDao.findUserGroupByName(userGroupName));
+        User u = new User(login, configuration.generateHashedPassword(password), email, false ,userGroupDao.findUserGroupByName(userGroupName));
         userDao.save(u);
         Basket b = new Basket("Created", u);
         basketDao.save(b);

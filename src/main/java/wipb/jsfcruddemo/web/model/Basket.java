@@ -32,15 +32,9 @@ public class Basket extends AbstractModel{
                 .append(" lista produktów: ");
 
         for (BasketProduct basketProduct : basketProducts) {
-            sb.append(basketProduct)
+            sb.append(basketProduct.getProduct())
                     .append(", ");
         }
-
-        /*// Remove the trailing comma and space if there are products
-        if (!basketProducts.isEmpty()) {
-            sb.delete(sb.length() - 2, sb.length());
-        }*/
-
         return sb.toString();
     }
 
@@ -63,8 +57,8 @@ public class Basket extends AbstractModel{
         this.basketProducts = basketProducts;
     }
 
-    public void addProduct(Product product, BigDecimal numberOfProductsInBasket, BigDecimal specialDiscount) {
-        BasketProduct basketProduct = new BasketProduct(this, product, numberOfProductsInBasket, specialDiscount);
+    public void addProduct(Product product, BigDecimal numberOfProductsInBasket, Discount discount) {
+        BasketProduct basketProduct = new BasketProduct(this, product, numberOfProductsInBasket, discount);
         basketProducts.add(basketProduct);
         product.getBasketProducts().add(basketProduct);
     }

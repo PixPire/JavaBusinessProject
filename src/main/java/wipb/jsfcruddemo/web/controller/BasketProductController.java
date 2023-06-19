@@ -2,11 +2,11 @@ package wipb.jsfcruddemo.web.controller;
 
 import wipb.jsfcruddemo.web.bean.UserBean;
 import wipb.jsfcruddemo.web.dao.BasketDao;
-import wipb.jsfcruddemo.web.model.Basket;
-import wipb.jsfcruddemo.web.model.BasketProduct;
-import wipb.jsfcruddemo.web.model.Product;
-import wipb.jsfcruddemo.web.model.User;
+import wipb.jsfcruddemo.web.dao.DiscountDao;
+import wipb.jsfcruddemo.web.dao.ProductDao;
+import wipb.jsfcruddemo.web.model.*;
 import wipb.jsfcruddemo.web.service.BasketService;
+import wipb.jsfcruddemo.web.service.DiscountService;
 import wipb.jsfcruddemo.web.service.UserService;
 
 import java.io.Serializable;
@@ -27,6 +27,8 @@ public class BasketProductController implements Serializable {
     private BasketService basketService;
     @EJB
     private BasketDao basketDao;
+    @EJB
+    private ProductDao productDao;
     private List<BasketProduct> basketProducts;
     private BasketProduct editedBasketProduct;
     private Product clickedProduct;
@@ -37,6 +39,12 @@ public class BasketProductController implements Serializable {
     private UserBean userBean;
     @EJB
     private UserService userService;
+
+    @EJB
+    private DiscountDao discountDao;
+
+    @EJB
+    private DiscountService discountService;
 
     private User actualUser;
     private Basket actualBasket;
@@ -66,6 +74,7 @@ public class BasketProductController implements Serializable {
         logger.severe("Produkt = " + product);
         clickedProduct = product;
         logger.severe("Kod znizkowy = " + discountCode);
+
         editedBasketProduct = new BasketProduct();
         editedBasketProduct.setBasket(actualBasket);
         editedBasketProduct.setProduct(clickedProduct);
@@ -78,15 +87,34 @@ public class BasketProductController implements Serializable {
             editedBasketProduct.sp*/
         logger.severe("editedBasketProduct = "+editedBasketProduct);
         logger.severe("Liczba = " + editedBasketProduct.getNumberOfProductsInBasket());
-        logger.severe("Kod = " + editedBasketProduct.getSpecialDiscount());
+        logger.severe("Kod = " + editedBasketProduct.getDiscount());
     }
 
     public void onSaveBasketProduct() {
         logger.severe("SAVE WYWOLANE");
         logger.severe("JAKIMS CUDEM CHYBA NAWET DZIALA CZESCIOWO");
         logger.severe("editedBasketProduct = "+editedBasketProduct);
-        basketService.addEditProductToBasket(editedBasketProduct.getBasket(), editedBasketProduct.getProduct(), editedBasketProduct.getNumberOfProductsInBasket(), editedBasketProduct.getSpecialDiscount());
+
+        Basket bp = basketDao.findById(editedBasketProduct.getBasket().getId()).get();
+        Product pp = productDao.findById(editedBasketProduct.getProduct().getId()).get();
+
+        basketService.addEditProductToBasket(editedBasketProduct.getBasket(), editedBasketProduct.getProduct(), editedBasketProduct.getNumberOfProductsInBasket(), editedBasketProduct.getDiscount());
         logger.severe("DZIALA onSaveBasketProduct");
+
+        logger.severe("Koszyk = " + bp);
+        logger.severe("Produkt = "+ pp);
+        discountService.deleteDiscountFromBasketProduct(bp, pp);
+        logger.severe("Usunieto znizke z produktu = ");
+
+        Discount d = discountDao.findDiscountByName(discountCode);
+        if(d != null){
+            logger.severe("Promocja to = " + d);
+            //d.addBasketProduct(editedBasketProduct);
+
+            discountService.addDiscountToBasketProduct(bp, pp, d);
+            logger.severe("Dodano znizke do produktu = ");
+            logger.severe("Znizka = " + d.toString());
+        }
         editedBasketProduct = null;
     }
 
