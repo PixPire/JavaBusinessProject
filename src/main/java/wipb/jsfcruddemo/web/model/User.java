@@ -22,6 +22,12 @@ public class User extends AbstractModel {
     public User() {
     }
 
+    public User(String login, String password, String email) {
+        //super(id);
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
     public User(String login, String password, String email, UserGroup userGroup) {
         //super(id);
         this.login = login;

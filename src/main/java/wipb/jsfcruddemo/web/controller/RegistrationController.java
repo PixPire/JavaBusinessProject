@@ -104,6 +104,7 @@ public class RegistrationController implements Serializable {
 
     public void onRegister() throws IOException {
         logger.severe("onRegister executed");
+        logger.severe("userGroupDao = " + userGroupDao);
 
         User checkUser = userService.findByLogin(login);
         if(checkUser != null){

@@ -5,14 +5,20 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
 >
 
-<application>
-    <message-bundle>wipb.jsfcruddemo.web.Messages</message-bundle>
+    <application>
+        <message-bundle>wipb.jsfcruddemo.web.Messages</message-bundle>
 
-    <resource-bundle>
-        <base-name>wipb.jsfcruddemo.web.text</base-name>
-        <var>text</var>
-    </resource-bundle>
+        <resource-bundle>
+            <base-name>wipb.jsfcruddemo.web.text</base-name>
+            <var>text</var>
+        </resource-bundle>
 
-</application>
+    </application>
+
+    <converter>
+        <converter-id>userGroupConverter</converter-id>
+        <converter-class>wipb.jsfcruddemo.web.Convertor.UserGroupConverter</converter-class>
+    </converter>
+
 
 </faces-config>

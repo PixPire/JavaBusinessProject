@@ -1,5 +1,6 @@
 package wipb.jsfcruddemo.web.dao;
 
+import wipb.jsfcruddemo.web.controller.ProductController;
 import wipb.jsfcruddemo.web.model.AbstractModel;
 
 import javax.persistence.EntityManager;
@@ -13,9 +14,11 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class AbstractDaoJpaImpl<T extends AbstractModel> implements AbstractDao<T> {
 
+    private static Logger logger = Logger.getLogger(AbstractDaoJpaImpl.class.getName());
     @PersistenceContext(unitName = "PU")
     protected EntityManager em;
 
@@ -45,6 +48,7 @@ public class AbstractDaoJpaImpl<T extends AbstractModel> implements AbstractDao<
     @Override
     public Optional<T> findById(Long id) {
         T dto = em.find(type, id);
+        logger.severe("Znaleziono = " + dto);
         return Optional.ofNullable(dto);
     }
 

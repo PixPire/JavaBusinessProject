@@ -7,6 +7,7 @@
     <packaging>war</packaging>
     <name>ee-jsfcruddemo-container-security-web</name>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -22,8 +23,6 @@
             <version>1.4.200</version>
             <scope>test</scope>
         </dependency>
-
-
 
         <dependency>
             <groupId>jakarta.platform</groupId>

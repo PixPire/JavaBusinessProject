@@ -5,12 +5,15 @@
  */
 package wipb.jsfcruddemo.web.service;
 
-import wipb.jsfcruddemo.web.model.Client;
 import wipb.jsfcruddemo.web.model.User;
 
 import java.util.List;
 
 public interface UserService {
+    User save(User t);
+    void delete (Long id);
+    User findById(Long id);
+    List<User> findAll();
     public User findByLogin(String login);
     public boolean verify(String login, String password);
 }

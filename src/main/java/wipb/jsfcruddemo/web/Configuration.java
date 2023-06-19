@@ -23,6 +23,7 @@ import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -90,56 +91,61 @@ public class Configuration {
         private void initDatabase() {
                 logger.severe("Wywolano inicjalizacje bazy danych");
 
-                UserGroup ugAdmin = new UserGroup("ROLE_ADMIN");
-                UserGroup ugManager = new UserGroup("ROLE_MANAGER");
-                UserGroup ugClient = new UserGroup("ROLE_CLIENT");
+                List<UserGroup> userGroupList = userGroupDao.findAll();
+                logger.severe("Znaleziono " + userGroupList.size()+ " grup: ");
+                for (UserGroup ug: userGroupList) {
+                        logger.severe(ug.toString());
+                }
+                if(userGroupList.size() == 0)
+                {
+                        logger.severe("Baza danych jest pusta / nie ma jej");
+                        UserGroup ugAdmin = new UserGroup("ROLE_ADMIN");
+                        UserGroup ugManager = new UserGroup("ROLE_MANAGER");
+                        UserGroup ugClient = new UserGroup("ROLE_CLIENT");
+                        userGroupDao.save(ugAdmin);
+                        userGroupDao.save(ugManager);
+                        userGroupDao.save(ugClient);
+                        logger.severe("Utworzono grupy");
 
-                userGroupDao.save(ugAdmin);
-                userGroupDao.save(ugManager);
-                userGroupDao.save(ugClient);
+                        User u0 = new User("manager", pbkdf.generate("manager".toCharArray()), "manager@manager.pl", ugManager);
+                        Basket b0 = new Basket("Created", u0);
+                        basketDao.save(b0);
+                        userDao.save(u0);
 
-                logger.severe("Utworzono grupy");
+                        User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", ugClient);
+                        userDao.save(u);
 
+                        logger.severe("Zapisano 1 uzytkownika = " + u);
 
-                User u0 = new User("manager", pbkdf.generate("manager".toCharArray()), "manager@manager.pl", ugManager);
-                Basket b0 = new Basket("Created", u0);
-                basketDao.save(b0);
-                userDao.save(u0);
+                        Product p = new Product("produkt testowy1", "test", new BigDecimal(100.99));
+                        productDao.save(p);
+                        Product p2 = new Product("produkt testowy2", "test", new BigDecimal(2000));
+                        productDao.save(p2);
+                        Product p4 = new Product("produkt testowy9000", "test", new BigDecimal(9000));
+                        productDao.save(p4);
+                        Basket b = new Basket("Created", u);
+                        b.addProduct(p, new BigDecimal(1), new BigDecimal(10));
+                        b.addProduct(p2, new BigDecimal(2), new BigDecimal(0));
+                        b.addProduct(p4, new BigDecimal(4), new BigDecimal(0));
+                        basketDao.save(b);
 
-                User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", ugClient);
-                userDao.save(u);
+                        User u2 = new User();
+                        u2.setLogin("admin");
+                        u2.setPassword(pbkdf.generate("admin".toCharArray()));
+                        u2.setEmail("admin@admin.pl");
+                        u2.setUserGroup(ugAdmin);
 
-                logger.severe("Zapisano 1 uzytkownika = " + u);
+                        Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
+                        productDao.save(p5);
+                        Basket b2 = new Basket("Created", u2);
+                        b2.addProduct(p5, new BigDecimal(5000), new BigDecimal(0));
+                        b2.addProduct(p2, new BigDecimal(2000), new BigDecimal(50));
+                        basketDao.save(b2);
+                        userDao.save(u2);
 
-                Product p = new Product("produkt testowy1", "test", new BigDecimal(100.99));
-                productDao.save(p);
-                Product p2 = new Product("produkt testowy2", "test", new BigDecimal(2000));
-                productDao.save(p2);
-                Product p4 = new Product("produkt testowy9000", "test", new BigDecimal(9000));
-                productDao.save(p4);
-                Basket b = new Basket("Created", u);
-                b.addProduct(p, new BigDecimal(1), new BigDecimal(10));
-                b.addProduct(p2, new BigDecimal(2), new BigDecimal(0));
-                b.addProduct(p4, new BigDecimal(4), new BigDecimal(0));
-                basketDao.save(b);
-
-                User u2 = new User();
-                u2.setLogin("admin");
-                u2.setPassword(pbkdf.generate("admin".toCharArray()));
-                u2.setEmail("admin@admin.pl");
-                //u2.addGroup("ROLE_USER");
-                u2.setUserGroup(ugAdmin);
-
-                Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
-                productDao.save(p5);
-                Basket b2 = new Basket("Created", u2);
-                b2.addProduct(p5, new BigDecimal(5000), new BigDecimal(0));
-                b2.addProduct(p2, new BigDecimal(2000), new BigDecimal(50));
-                basketDao.save(b2);
-                userDao.save(u2);
-
-                Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
-                productDao.save(p3);
+                        Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
+                        productDao.save(p3);
+                }
         }
 
         public String generateHashedPassword(String password){

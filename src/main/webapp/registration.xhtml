@@ -16,7 +16,7 @@
                             <p:outputLabel for="login" value="Login" />
                             <p:inputText id="login" value="#{registrationController.login}" required="true"  />
                             <p:outputLabel for="email" value="Email" />
-                            <p:password id="email" value="#{registrationController.email}" required="true"  />
+                            <p:inputText id="email" value="#{registrationController.email}" required="true"  />
                             <p:outputLabel for="password" value="Hasło" />
                             <p:password id="password" value="#{registrationController.password}" required="true"  />
                             <p:outputLabel for="confirmedPassword" value="Powtórz Hasło" />
@@ -24,6 +24,7 @@
                         </h:panelGrid>
                         <p:commandButton value="Zarejestruj sie" ajax="false" update="growl" action="#{registrationController.onRegister}" />
                     </p:panel>
+                    <p:button value="Wróc do głównej strony" outcome="/index.html" style="float:right"/>
                 </h:form>
             </ui:define>
         </ui:composition>
