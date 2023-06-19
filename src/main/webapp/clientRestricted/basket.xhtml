@@ -38,8 +38,14 @@
                     <p:column headerText="Produkt" style="text-align: center;">
                         #{basketProduct.product.name}
                     </p:column>
-                    <p:column headerText="Znizka" style="text-align: center;">
+                    <p:column headerText="Cena Produktu" style="text-align: center;">
+                        #{basketProduct.product.price}
+                    </p:column>
+                    <p:column headerText="Znizka %" style="text-align: center;">
                         #{basketProduct.specialDiscount}
+                    </p:column>
+                    <p:column headerText="Łączne cena" style="text-align: center;">
+                        #{basketProduct.numberOfProductsInBasket*basketProduct.product.price*(100-basketProduct.specialDiscount)/100}
                     </p:column>
                     <p:column headerText="Edytuj" width="80" style="text-align: center;">
                         <p:commandButton icon="fa fa-fw fa-edit"  title="Edytuj" action="#{basketProductController.onEditBasketProduct(basketProduct)}" disabled="#{!userBean.logged}" process="@this" update=":mainFormBasketProduct:basketProductTable" oncomplete="PF('editProductToBasketDlg').show()" />
