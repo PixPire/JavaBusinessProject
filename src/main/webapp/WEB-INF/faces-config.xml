@@ -20,5 +20,10 @@
         <converter-class>wipb.jsfcruddemo.web.Convertor.UserGroupConverter</converter-class>
     </converter>
 
+    <converter>
+        <converter-id>LocalDateTimeConverter</converter-id>
+        <converter-class>wipb.jsfcruddemo.web.Convertor.LocalDateTimeConverter</converter-class>
+    </converter>
+
 
 </faces-config>

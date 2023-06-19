@@ -25,6 +25,12 @@
             </p:panel>
         </ui:define>
 
+        <ui:define name="discountContent">
+            <p:panel header="Zarzadzanie promocjami" style="margin-top:10px; margin-bottom: 10px; margin-rigt: 10px;" rendered="#{userBean.logged and (userBean.admin or userBean.manager)}">
+                <p:link value="Panel dostępny tylko dla admina lub menagera" outcome="/managerRestricted/discount.xhtml" />
+            </p:panel>
+        </ui:define>
+
         <ui:define name="productContent">
             <h:form id="mainFormProduct">
                 <p:growl id="growl" showDetail="true" showSummary="false"  keepAlive=""   />
