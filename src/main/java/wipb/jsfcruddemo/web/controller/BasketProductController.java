@@ -58,7 +58,6 @@ public class BasketProductController implements Serializable {
     @PostConstruct
     private void init() {
         String login = userBean.getLogin();
-        basketService = new BasketServiceImpl();
         actualUser = userService.findByLogin(login);
         actualBasket = basketDao.findByUser(actualUser);
         basketProducts = actualBasket.getBasketProducts();
