@@ -1,28 +1,28 @@
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "DISCOUNT" nie istnieje
 Table "DISCOUNT" not found; SQL statement:
 SELECT 1 FROM DISCOUNT [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "BASKETPRODUCT" nie istnieje
 Table "BASKETPRODUCT" not found; SQL statement:
 SELECT 1 FROM BASKETPRODUCT [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "USER" nie istnieje
 Table "USER" not found; SQL statement:
 SELECT 1 FROM USER [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "PRODUCT" nie istnieje
 Table "PRODUCT" not found; SQL statement:
 SELECT 1 FROM PRODUCT [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "BASKET" nie istnieje
 Table "BASKET" not found; SQL statement:
 SELECT 1 FROM BASKET [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "USERGROUP" nie istnieje
 Table "USERGROUP" not found; SQL statement:
 SELECT 1 FROM USERGROUP [42102-200]
-2023-06-21 07:25:21 jdbc[3]: exception
+2023-06-21 15:06:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Sekwencja "SEQ_GEN_SEQUENCE" nie istnieje
 Sequence "SEQ_GEN_SEQUENCE" not found; SQL statement:
 CALL NEXT VALUE FOR SEQ_GEN_SEQUENCE [90036-200]

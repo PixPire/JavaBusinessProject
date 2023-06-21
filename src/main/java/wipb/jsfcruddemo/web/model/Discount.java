@@ -1,8 +1,11 @@
 package wipb.jsfcruddemo.web.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +14,8 @@ import java.util.List;
 @NamedQuery(name = "Discount.findDiscountByName", query ="select d from Discount d where d.name=?1")
 public class Discount extends  AbstractModel{
     private String name;
+    @Min(0)
+    @Max(100)
     private BigDecimal value;
     @Column(nullable = false)
     private LocalDateTime startedDate;
@@ -21,11 +26,14 @@ public class Discount extends  AbstractModel{
     @OneToMany(mappedBy = "discount")
     private List<BasketProduct> basketProducts = new ArrayList<>();
 
-    public Discount(){}
-    public Discount(String name, BigDecimal value, LocalDateTime startedDate, LocalDateTime endedDate, Boolean onlyForVips) {
+    public Discount()
+    {
+        this.startedDate = LocalDateTime.now();
+    }
+    public Discount(String name, BigDecimal value, LocalDateTime endedDate, Boolean onlyForVips) {
         this.name = name;
         this.value = value;
-        this.startedDate = startedDate;
+        this.startedDate = LocalDateTime.now();
         this.endedDate = endedDate;
         this.onlyForVips = onlyForVips;
     }

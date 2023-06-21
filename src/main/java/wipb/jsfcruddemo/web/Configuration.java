@@ -120,16 +120,13 @@ public class Configuration {
                         productDao.save(p4);
                         Basket b = new Basket("Created", u);
 
-                        LocalDateTime now = LocalDateTime.now();
-
-                        LocalDateTime startedDate = now.minusYears(1);
-                        LocalDateTime endedDate = now.plusYears(1);
+                        LocalDateTime endedDate = LocalDateTime.now().plusYears(1);
 
                         logger.severe("daty dzialaja");
 
-                        Discount d1 = new Discount("super", new BigDecimal(50), startedDate, endedDate, false);
+                        Discount d1 = new Discount("super", new BigDecimal(50),  endedDate, false);
                         discountDao.save(d1);
-                        Discount d2 = new Discount("ok", new BigDecimal(10), startedDate, endedDate, true);
+                        Discount d2 = new Discount("ok", new BigDecimal(10),  endedDate, true);
                         discountDao.save(d2);
 
                         logger.severe("zapisano discount = " + d1);

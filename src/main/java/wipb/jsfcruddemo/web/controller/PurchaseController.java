@@ -94,7 +94,6 @@ public class PurchaseController implements Serializable {
         try {
             externalContext.redirect(request.getContextPath() + "/clientRestricted/thanksForPurchase.xhtml");
         } catch (IOException e) {
-            // Handle the exception as needed
             e.printStackTrace();
         }
     }
