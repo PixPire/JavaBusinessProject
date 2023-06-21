@@ -6,6 +6,7 @@ import wipb.jsfcruddemo.web.dao.DiscountDao;
 import wipb.jsfcruddemo.web.dao.ProductDao;
 import wipb.jsfcruddemo.web.model.*;
 import wipb.jsfcruddemo.web.service.BasketService;
+import wipb.jsfcruddemo.web.service.BasketServiceImpl;
 import wipb.jsfcruddemo.web.service.DiscountService;
 import wipb.jsfcruddemo.web.service.UserService;
 
@@ -18,6 +19,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.MessagingException;
 
 @Named
 @ViewScoped
@@ -34,6 +36,10 @@ public class BasketProductController implements Serializable {
     private Product clickedProduct;
 
     private String discountCode;
+
+    private String address;
+
+    private String phone;
 
     @Inject
     private UserBean userBean;
@@ -52,9 +58,12 @@ public class BasketProductController implements Serializable {
     @PostConstruct
     private void init() {
         String login = userBean.getLogin();
+        basketService = new BasketServiceImpl();
         actualUser = userService.findByLogin(login);
         actualBasket = basketDao.findByUser(actualUser);
         basketProducts = actualBasket.getBasketProducts();
+
+
         logger.severe("BasketProductController zainicjalizowany z " + basketProducts);
     }
 
@@ -129,11 +138,29 @@ public class BasketProductController implements Serializable {
         clickedProduct = null;
         logger.severe("editedBasketProduct = " + editedBasketProduct);
     }
+    public void onConfirmRealizeOrder() throws MessagingException {
+        logger.severe("REALIZE ORDER WYWOLANE");
+        basketService.realizeOrder(actualUser,actualBasket,address,phone);
+    }
 
     public String getDiscountCode(){
         return discountCode;
     }
     public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
+    }
+
+    public String getphone()
+    {
+        return phone;
+    }
+    public void setPhone(String phone)
+    {
+        this.phone=phone;
+    }
+    public String getAddress(){return address;}
+    public void setAddress(String address)
+    {
+        this.address=address;
     }
 }

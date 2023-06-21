@@ -57,6 +57,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
+
             <p:dialog id="editProductToBasketDlg" widgetVar="editProductToBasketDlg" dynamic="true" modal="true" header="Dane produktu w koszyku"  showEffect="fade" hideEffect="fade">
                 <h:form id="editProductToBasketDlgForm" >
                     <h:panelGrid columns="2">
@@ -65,10 +66,31 @@
                         <p:outputLabel value="Podaj kod znizkowy" for="@next" />
                         <p:inputText id="discountCode" value="#{basketProductController.discountCode}" required="false" />
                     </h:panelGrid>
-                    <p:commandButton value="Zapisz" action="#{basketProductController.onSaveBasketProduct()}" process="@form" update=":mainFormBasketProduct" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editProductToBasketDlg').hide(); location.reload();"  />
+                    <p:commandButton value="Zapisz" action="#{basketProductController.onSaveBasketProduct()}" process="@form :realizeOrderDlgForm" update=":mainFormBasketProduct" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editProductToBasketDlg').hide(); location.reload();"  />
                     <p:commandButton  value="Anuluj" action="#{basketProductController.onCancelBasketProduct()}" process="@this" update=":mainFormBasketProduct:growl" oncomplete="PF('editProductToBasketDlg').hide()"  >
                         <p:resetInput target=":editProductToBasketDlgForm"/>
                     </p:commandButton>
+                </h:form>
+            </p:dialog>
+
+            <p:commandButton title="Zrealizuj Zamówienie" disabled="#{!userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" style="margin-top: 20px; text-align: center; display: block; margin-left: auto; margin-right: auto;"></p:commandButton>
+
+            <p:dialog id="realizeOrder" widgetVar="realizeOrderDlg" dynamic="true" modal="true" header="Realizacja zamówienia"  showEffect="fade" hideEffect="fade">
+                <h:form id="realizeOrderDlgForm">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel value="Adres dostawy" required="true" for="@next"/>
+                            <p:tooltip for="address" value="Na ten adres wyslemy zamowienie" showEffect="fade" hideEffect="fade" />
+                            <p:inputText id="address" required="true" value="#{basketProductController.address}" ></p:inputText>
+                        <p:outputLabel value="Numer kontaktowy" required="true" for="@next"/>
+                            <p:tooltip for="phone" value="Wprowadz 9 cyfrowy numer telefonu" showEffect="fade" hideEffect="fade" />
+                            <p:inputMask id="phone" required="true" mask="999 999 999" value="#{basketProductController.phone}" />
+                        <p:outputLabel value="Oświadczam że zapoznałem się z regulaminem sklepu" for="@next"/>
+                            <p:tooltip for="checkbox" value="Nalezy wyrazic zgode" showEffect="fade" hideEffect="fade" />
+                            <p:selectBooleanCheckbox id="checkbox" required="true" />
+                    </h:panelGrid>
+                    <p:commandButton id="realizeOrderButtonForm" value="Zamów" action="#{basketProductController.onConfirmRealizeOrder()}" oncomplete="PF('realizeOrderDlg').hide()"></p:commandButton>
+                    <p:message for="realizeOrderDlgForm:realizeOrderButtonForm" value="Wysłaliśmy wiadomość na e-mail"></p:message>
+                    <p:commandButton value="Anuluj" process="@this"  oncomplete="PF('realizeOrderDlg').hide()"></p:commandButton>
                 </h:form>
             </p:dialog>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" header="Potwierdzenie" >

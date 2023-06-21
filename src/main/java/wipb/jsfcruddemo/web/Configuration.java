@@ -11,6 +11,10 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
@@ -20,14 +24,18 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 @DataSourceDefinition(
     name = "java:global/JsfCrudDemoDataSource",
     className = "org.h2.jdbcx.JdbcDataSource",
     //url = "jdbc:h2:file:./h2data;",
-    url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
+
+    //url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
     //url = "jdbc:h2:mem:jsfcruddemo;DB_CLOSE_DELAY=-1",
+        url = "jdbc:h2:file:C:/Users/poker/OneDrive/Pulpit/JavaBusinessProject/h2data",
+
     minPoolSize = 1,
     initialPoolSize = 1,
     user = "sa",
@@ -68,13 +76,26 @@ public class Configuration {
         private UserGroupDao userGroupDao;
 
         @PostConstruct
-        private void init() {
+        private void init(){
                 Map<String,String> map = new HashMap<>();
                 map.put("Pbkdf2PasswordHash.Algorithm","PBKDF2WithHmacSHA512");
                 map.put("Pbkdf2PasswordHash.Iterations","3072");
                 map.put("Pbkdf2PasswordHash.SaltSizeBytes","64");
                 pbkdf.initialize(map);
-
+                Properties prop = new Properties();
+                prop.put("mail.smtp.auth", true);
+                prop.put("mail.smtp.host", "smtp.gmail.com");
+                prop.put("mail.smtp.port", "587");
+                prop.put("mail.smtp.starttls.enable", "true");
+                prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+                Session session = Session.getInstance(prop, new Authenticator()
+                {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication()
+                        {
+                                return new PasswordAuthentication("pokermonik200@gmail.com","eufbrdfccgfuknzb");
+                        }
+                });
                 initDatabase();
         }
 
@@ -85,7 +106,7 @@ public class Configuration {
         @EJB
         private DiscountDao discountDao;
 
-        private void initDatabase() {
+        private void initDatabase(){
                 logger.severe("Wywolano inicjalizacje bazy danych");
 
                 List<UserGroup> userGroupList = userGroupDao.findAll();
@@ -157,6 +178,10 @@ public class Configuration {
 
                         Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
                         productDao.save(p3);
+
+
+
+
                 }
         }
 
