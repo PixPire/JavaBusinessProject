@@ -10,16 +10,20 @@ import wipb.jsfcruddemo.web.service.BasketServiceImpl;
 import wipb.jsfcruddemo.web.service.DiscountService;
 import wipb.jsfcruddemo.web.service.UserService;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 @Named
 @ViewScoped
@@ -145,6 +149,19 @@ public class BasketProductController implements Serializable {
     public void onConfirmRealizeOrder() throws MessagingException {
         logger.severe("REALIZE ORDER WYWOLANE");
         basketService.realizeOrder(actualUser,actualBasket,address,phone);
+        redirectToThanksPage();
+    }
+
+    public void redirectToThanksPage() {
+        logger.severe("Wywolanie metody przekierowujacej na strone z podziekowaniem");
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+
+        try {
+            externalContext.redirect(request.getContextPath() + "/clientRestricted/thanksForPurchase.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getDiscountCode(){

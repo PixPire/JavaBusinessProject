@@ -73,7 +73,8 @@
                 </h:form>
             </p:dialog>
 
-            <p:commandButton title="Zrealizuj Zamówienie" disabled="#{!userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" style="background-color:cornflowerblue; margin-top: 20px; border:none; color:white; text-align: center; display: block; margin-left: auto; margin-right: auto;"></p:commandButton>
+            <p:commandButton rendered="#{userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" value="Zrealizuj Zamówienie" style="display: block; width: 50%; height: 100px; margin: 0 auto; text-align: center; font-size: 36px; font-weight: bold;" />
+
 
             <p:dialog id="realizeOrder" widgetVar="realizeOrderDlg" dynamic="true" modal="true" header="Realizacja zamówienia"  showEffect="fade" hideEffect="fade">
                 <h:form id="realizeOrderDlgForm">

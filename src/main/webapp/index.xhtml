@@ -17,7 +17,6 @@
                 <p:link value="Koszyk dostępny tylko dla zalogowanych użytkowników" outcome="/clientRestricted/basket.xhtml" />
                 <!--<p:commandButton title="Koszyk" icon="fa fa-fw fa-cart-arrow-down" iconPos="right" outcome="/clientRestricted/basket.xhtml" style="width:100px;height:100px"> </p:commandButton>-->
             </p:panel>
-            <p:commandButton rendered="#{userBean.logged}" action="#{purchaseController.buyBasket()}" value="Kup" style="display: block; width: 50%; height: 100px; margin: 0 auto; text-align: center; font-size: 36px; font-weight: bold;" />
         </ui:define>
         <ui:define name="userContent">
             <p:panel header="Zarzadzanie uzytkownikami" style="margin-top:10px; margin-bottom: 10px; margin-rigt: 10px;" rendered="#{userBean.logged and userBean.admin}">

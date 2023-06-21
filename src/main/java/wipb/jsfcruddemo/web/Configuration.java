@@ -30,9 +30,8 @@ import java.util.logging.Logger;
     className = "org.h2.jdbcx.JdbcDataSource",
     //url = "jdbc:h2:file:./h2data;",
 
-    //url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
+    url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
     //url = "jdbc:h2:mem:jsfcruddemo;DB_CLOSE_DELAY=-1",
-        url = "jdbc:h2:file:C:/Users/poker/OneDrive/Pulpit/JavaBusinessProject/h2data",
 
     minPoolSize = 1,
     initialPoolSize = 1,
