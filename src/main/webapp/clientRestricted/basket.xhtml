@@ -73,7 +73,7 @@
                 </h:form>
             </p:dialog>
 
-            <p:commandButton title="Zrealizuj Zamówienie" disabled="#{!userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" style="margin-top: 20px; text-align: center; display: block; margin-left: auto; margin-right: auto;"></p:commandButton>
+            <p:commandButton title="Zrealizuj Zamówienie" disabled="#{!userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" style="background-color:cornflowerblue; margin-top: 20px; border:none; color:white; text-align: center; display: block; margin-left: auto; margin-right: auto;"></p:commandButton>
 
             <p:dialog id="realizeOrder" widgetVar="realizeOrderDlg" dynamic="true" modal="true" header="Realizacja zamówienia"  showEffect="fade" hideEffect="fade">
                 <h:form id="realizeOrderDlgForm">
@@ -88,9 +88,9 @@
                             <p:tooltip for="checkbox" value="Nalezy wyrazic zgode" showEffect="fade" hideEffect="fade" />
                             <p:selectBooleanCheckbox id="checkbox" required="true" />
                     </h:panelGrid>
-                    <p:commandButton id="realizeOrderButtonForm" value="Zamów" action="#{basketProductController.onConfirmRealizeOrder()}" oncomplete="PF('realizeOrderDlg').hide()"></p:commandButton>
-                    <p:message for="realizeOrderDlgForm:realizeOrderButtonForm" value="Wysłaliśmy wiadomość na e-mail"></p:message>
-                    <p:commandButton value="Anuluj" process="@this"  oncomplete="PF('realizeOrderDlg').hide()"></p:commandButton>
+                    <p:message for="realizeOrderButtonForm" autoUpdate="true" value="Wysłaliśmy wiadomość na e-mail"></p:message>
+                    <p:commandButton id="realizeOrderButtonForm"  value="Zamów" action="#{basketProductController.onConfirmRealizeOrder()}" oncomplete="PF('realizeOrderDlg').hide()"></p:commandButton>
+                    <p:commandButton value="Anuluj" process="@this"  oncomplete="PF('realizeOrderDlg').hide()" ></p:commandButton>
                 </h:form>
             </p:dialog>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" header="Potwierdzenie" >
