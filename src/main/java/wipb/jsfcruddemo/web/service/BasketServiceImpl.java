@@ -84,7 +84,7 @@ public class BasketServiceImpl implements BasketService {
 
         List<BasketProduct> products = basket.getBasketProducts();
         StringBuilder contentBuilder = new StringBuilder();
-        contentBuilder.append("Dzien dobry ").append(user.getLogin()).append(", dziekujemy za zakupy w naszym sklepie. Twoj numer: ").append(phone).append(" adres dostawy: )").append(address).append(" Oto twoje zamowienie:<br><br>");
+        contentBuilder.append("Dzien dobry ").append(user.getLogin()).append(", <br> <br> Dziekujemy za zakupy w naszym sklepie. <br><br> Twoj numer: ").append(phone).append(" <br><br>adres dostawy: ").append(address).append(". <br><br> Oto twoje zamowienie:<br><br>");
         contentBuilder.append("<table style='border-collapse: collapse;'>");
         contentBuilder.append("<tr>")
                 .append("<th style='border: 1px solid black;'> Nazwa </th>")
@@ -114,8 +114,9 @@ public class BasketServiceImpl implements BasketService {
         contentBuilder.append("<tr> <td></td> <td></td> <td></td> <td></td> <td style='border: 1px solid black;'> ").append(suma).append("<td> </tr>");
 
         contentBuilder.append("</table>");
-
+        contentBuilder.append("<br><br> Zapraszamy ponownie");
         message.setContent(contentBuilder.toString(), "text/html");
+
         return message;
     }
     @Override
