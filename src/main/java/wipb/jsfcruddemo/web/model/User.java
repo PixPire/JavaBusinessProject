@@ -81,11 +81,11 @@ public class User extends AbstractModel {
                 '}';
     }
 
-    public boolean isVip() {
+    public boolean getIsVip() {
         return isVip;
     }
 
-    public void setVip(boolean vip) {
+    public void setIsVip(boolean vip) {
         isVip = vip;
     }
 }

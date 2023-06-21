@@ -66,6 +66,8 @@
                     <h:panelGrid columns="2">
                         <p:outputLabel value="Nazwa" for="@next"/>
                         <p:inputText id="name" value="#{discountController.editedDiscount.name}" required="true" />
+                        <p:outputLabel value="Data rozpoczecia" for="@next"/>
+                        <p:calendar id="startedDate" value="#{discountController.editedDiscount.startedDate}" pattern="yyyy-MM-dd HH:mm" required="true" converter="#{localDateTimeConverter}"/>
                         <p:outputLabel value="Data zakonczenia" for="@next"/>
                         <p:calendar id="endedDate" value="#{discountController.editedDiscount.endedDate}" pattern="yyyy-MM-dd HH:mm" required="true" converter="#{localDateTimeConverter}"/>
                         <p:outputLabel value="Wartosc procentowa" for="@next" />

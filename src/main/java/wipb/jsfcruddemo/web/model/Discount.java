@@ -37,7 +37,13 @@ public class Discount extends  AbstractModel{
         this.endedDate = endedDate;
         this.onlyForVips = onlyForVips;
     }
-
+    public Discount(String name, BigDecimal value, LocalDateTime startedDate, LocalDateTime endedDate, Boolean onlyForVips) {
+        this.name = name;
+        this.value = value;
+        this.startedDate = startedDate;
+        this.endedDate = endedDate;
+        this.onlyForVips = onlyForVips;
+    }
 
     @Override
     public String toString() {
