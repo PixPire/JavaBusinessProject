@@ -61,6 +61,9 @@ public class BasketProductController implements Serializable {
     public List<BasketProduct> getBasketProducts() {
         return basketProducts;
     }
+    public void setBasketProducts(List<BasketProduct> basketProducts) {
+        this.basketProducts = basketProducts;
+    }
 
     public BasketProduct getEditedBasketProduct() {
         return editedBasketProduct;

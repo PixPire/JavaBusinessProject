@@ -1,9 +1,7 @@
 package wipb.jsfcruddemo.web;
 
-import wipb.jsfcruddemo.web.controller.ProductController;
 import wipb.jsfcruddemo.web.dao.*;
 import wipb.jsfcruddemo.web.model.*;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.EJB;
