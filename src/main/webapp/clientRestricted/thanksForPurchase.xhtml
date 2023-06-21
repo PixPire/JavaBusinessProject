@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition template="/WEB-INF/templates/template.xhtml">
+        <ui:define name="toolbarLoginRegistration">
+            <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
+        </ui:define>
+        <ui:define name="content">
+            <div style="font-size: 72px; font-weight: bold; color: orange;">
+                Dziekujemy za dokonanie zakupu.
+            </div>
+            <div style="font-size: 72px; font-weight: bold; color: blue;">
+                Zapraszamy ponownie.
+            </div>
+            <p:link value="Wróć" outcome="/index.xhtml" />
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

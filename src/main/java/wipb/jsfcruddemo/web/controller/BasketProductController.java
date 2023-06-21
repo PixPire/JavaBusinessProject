@@ -70,6 +70,9 @@ public class BasketProductController implements Serializable {
     public List<BasketProduct> getBasketProducts() {
         return basketProducts;
     }
+    public void setBasketProducts(List<BasketProduct> basketProducts) {
+        this.basketProducts = basketProducts;
+    }
 
     public BasketProduct getEditedBasketProduct() {
         return editedBasketProduct;
@@ -119,10 +122,12 @@ public class BasketProductController implements Serializable {
         if(d != null){
             logger.severe("Promocja to = " + d);
             //d.addBasketProduct(editedBasketProduct);
-
-            discountService.addDiscountToBasketProduct(bp, pp, d);
-            logger.severe("Dodano znizke do produktu = ");
-            logger.severe("Znizka = " + d.toString());
+            logger.severe("Aktualny uzytkownik = " + actualUser);
+            if(!d.getOnlyForVips() || actualUser.getIsVip()){
+                discountService.addDiscountToBasketProduct(bp, pp, d);
+                logger.severe("Dodano znizke do produktu = ");
+                logger.severe("Znizka = " + d.toString());
+            }
         }
         editedBasketProduct = null;
     }

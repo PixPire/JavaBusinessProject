@@ -35,10 +35,10 @@
                         #{discount.name}
                     </p:column>
                     <p:column headerText="Data rozpoczecia" style="text-align: center;">
-                        #{discount.startedDate}
+                        <h:outputText value="#{discount.startedDate}" pattern="yyyy-MM-dd HH:mm" converter="#{localDateTimeConverter}"/>
                     </p:column>
                     <p:column headerText="Data zakonczenia" style="text-align: center;">
-                        #{discount.endedDate}
+                        <h:outputText value="#{discount.endedDate}" pattern="yyyy-MM-dd HH:mm" converter="#{localDateTimeConverter}"/>
                     </p:column>
                     <p:column headerText="Wartosc procentowa" style="text-align: center;">
                         #{discount.value}
