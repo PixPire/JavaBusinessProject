@@ -6,6 +6,7 @@
 package wipb.jsfcruddemo.web.controller;
 
 import wipb.jsfcruddemo.web.Configuration;
+import wipb.jsfcruddemo.web.bean.UserBean;
 import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.dao.UserGroupDao;
 import wipb.jsfcruddemo.web.model.Basket;
@@ -17,10 +18,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.inject.Model;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static wipb.jsfcruddemo.web.controller.BasketProductController.redirect;
 
 @Named
 @ViewScoped
@@ -42,11 +46,19 @@ public class UserController implements Serializable {
 
     private List<UserGroup> availableUserGroups;
 
+    @Inject
+    private UserBean userBean;
+
     @PostConstruct
     private void init() {
         users = userService.findAll();
         availableUserGroups = userGroupDao.findAll();
         editedUserGroup = userGroupDao.findUserGroupByName("ROLE_CLIENT");
+
+        String login = userBean.getLogin();
+        User actualUser = userService.findByLogin(login);
+        if(actualUser == null)
+            redirect("/index.xhtml");
     }
 
     public List<User> getUsers() {

@@ -68,9 +68,12 @@ public class BasketProductController implements Serializable {
         logger.severe("Aktualny uzytkownik = "+ actualUser + "Aktualny koszyk = " + actualBasket);
         basketProducts = actualBasket.getBasketProducts();
         logger.severe("BasketProductController zainicjalizowany z " + basketProducts);
+
+        if(actualUser == null)
+            redirect("/index.xhtml");
     }
 
-    public void redirect(String path) {
+    public static void redirect(String path) {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         try {

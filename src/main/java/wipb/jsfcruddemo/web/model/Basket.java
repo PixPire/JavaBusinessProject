@@ -1,10 +1,13 @@
 package wipb.jsfcruddemo.web.model;
 
+import wipb.jsfcruddemo.web.Configuration;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Entity
 @NamedQuery(name = "Basket.findBasketByUser", query ="select b from Basket b where b.user=?1")
@@ -86,4 +89,6 @@ public class Basket extends AbstractModel{
             basketProduct.setProduct(null);
         }
     }
+
+    private static Logger logger = Logger.getLogger(Basket.class.getName());
 }

@@ -127,6 +127,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public void deleteProductFromBasket(Basket basket, Product product) {
+        logger.severe("Usuwanie produktu z koszyka");
         basket.removeProduct(product);
         save(basket);
     }

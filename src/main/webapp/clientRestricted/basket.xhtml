@@ -14,7 +14,6 @@
         </ui:define>
         <ui:define name="content">
             <h1>Koszyk użytkownika #{userBean.login}</h1>
-            <p:link value="Wróć" outcome="/index.xhtml" />
         </ui:define>
 
 
@@ -73,6 +72,7 @@
                 </h:form>
             </p:dialog>
 
+            <br/>
             <p:commandButton rendered="#{userBean.logged}" process="@this"  oncomplete="PF('realizeOrderDlg').show()" value="Zrealizuj Zamówienie" style="display: block; width: 50%; height: 100px; margin: 0 auto; text-align: center; font-size: 36px; font-weight: bold;" />
 
 

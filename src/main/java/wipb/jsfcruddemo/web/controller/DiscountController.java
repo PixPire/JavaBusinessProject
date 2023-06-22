@@ -1,15 +1,21 @@
 package wipb.jsfcruddemo.web.controller;
 
+import wipb.jsfcruddemo.web.bean.UserBean;
 import wipb.jsfcruddemo.web.model.Discount;
+import wipb.jsfcruddemo.web.model.User;
 import wipb.jsfcruddemo.web.service.DiscountService;
+import wipb.jsfcruddemo.web.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static wipb.jsfcruddemo.web.controller.BasketProductController.redirect;
 
 @Named
 @ViewScoped
@@ -20,8 +26,20 @@ public class DiscountController implements Serializable {
     private List<Discount> discounts;
     private Discount editedDiscount;
 
+    @Inject
+    private UserBean userBean;
+    @EJB
+    private UserService userService;
+
     @PostConstruct
-    private void init() { discounts = discountService.findAll(); }
+    private void init() {
+        discounts = discountService.findAll();
+
+        String login = userBean.getLogin();
+        User actualUser = userService.findByLogin(login);
+        if(actualUser == null)
+            redirect("/index.xhtml");
+    }
 
     public List<Discount> getDiscounts() {
         return discounts;
