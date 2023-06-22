@@ -168,8 +168,6 @@ public class BasketProductController implements Serializable {
     }
     public void onConfirmRealizeOrder() throws MessagingException {
         logger.severe("REALIZE ORDER WYWOLANE");
-        //basketService.realizeOrder(actualUser,actualBasket,address,phone);
-        purchaseService.realizeOrder(actualUser, actualBasket, address, phone);
         purchaseService.realizeOrder(actualUser, actualBasket, address, phone);
         purchaseService.archivizeBasket(actualUser, actualBasket);
         basketService.clearBasket(actualBasket);
