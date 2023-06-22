@@ -6,7 +6,9 @@
 package wipb.jsfcruddemo.web.controller;
 
 import wipb.jsfcruddemo.web.Configuration;
+import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.dao.UserGroupDao;
+import wipb.jsfcruddemo.web.model.Basket;
 import wipb.jsfcruddemo.web.model.User;
 import wipb.jsfcruddemo.web.model.UserGroup;
 import wipb.jsfcruddemo.web.service.UserService;
@@ -29,6 +31,8 @@ public class UserController implements Serializable {
     private List<User> users;
     private User editedUser;
     private String editedUserPassword = null;
+    @EJB
+    private BasketDao basketDao;
     @EJB
     private UserGroupDao userGroupDao;
     private UserGroup editedUserGroup;
@@ -84,7 +88,11 @@ public class UserController implements Serializable {
         editedUser.setUserGroup(editedUserGroup);
 
         if (editedUser.getId() == null) {
+            logger.severe("When add user executed");
             users.add(editedUser);
+            Basket newBasket = new Basket("Created", editedUser);
+            basketDao.save(newBasket);
+            logger.severe("Correct executed");
         }
         User saved = userService.save(editedUser);
         users.replaceAll(c-> c != editedUser ? c : saved);

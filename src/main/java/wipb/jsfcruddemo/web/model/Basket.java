@@ -11,7 +11,8 @@ import java.util.List;
 @NamedQuery(name = "Basket.findBasketProduct", query = "select bp from BasketProduct bp where bp.basket=?1 and bp.product=?2")
 public class Basket extends AbstractModel{
     private String basketStatus;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketProduct> basketProducts = new ArrayList<>();
@@ -22,12 +23,13 @@ public class Basket extends AbstractModel{
     {
         this.basketStatus = basketStatus;
         this.user = user;
+        user.setBasket(this);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Basket ")
+        sb.append("")
                 .append(user.toString())
                 .append(" lista produktów: ");
 
@@ -72,6 +74,16 @@ public class Basket extends AbstractModel{
                 basketProduct.setBasket(null);
                 basketProduct.setProduct(null);
             }
+        }
+    }
+
+    public void clearBasket(){
+        for (Iterator<BasketProduct> iterator = basketProducts.iterator(); iterator.hasNext();) {
+            BasketProduct basketProduct = iterator.next();
+            iterator.remove();
+            basketProduct.getProduct().getBasketProducts().remove(basketProduct);
+            basketProduct.setBasket(null);
+            basketProduct.setProduct(null);
         }
     }
 }

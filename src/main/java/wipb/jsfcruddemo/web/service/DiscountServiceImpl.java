@@ -44,11 +44,13 @@ public class DiscountServiceImpl implements DiscountService {
         logger.severe("Wywolal sie serwis addDiscountToBasketProduct");
         logger.severe("Basket = " + basket + " Product = " + product +  " discount = " + discount);
         BasketProduct bp = basketDao.findBasketProduct(basket, product);
-        logger.severe("Znaleziono " + bp);
+        logger.severe("addDiscountToBasketProduct Znaleziono " + bp);
 //        if(discount.getBasketProducts().contains(bp))
 //            deleteDiscountFromBasketProduct(bp);
         discount.addBasketProduct(bp);
         save(discount);
+        bp = basketDao.findBasketProduct(basket, product);
+        logger.severe("addDiscountToBasketProduct Znaleziono2 " + bp);
     }
 
     @Override

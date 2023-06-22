@@ -11,12 +11,11 @@ public class User extends AbstractModel {
     @Column(unique = true)
     private String login;
     private String password;
-    @Column(unique = true)
     private String email;
     @ManyToOne
     private UserGroup userGroup;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Basket basket;
 
     private boolean isVip=false;
@@ -75,9 +74,9 @@ public class User extends AbstractModel {
         return "User{" +
                 "id=" + getId() +
                 ", login='" + login + '\'' +
-                ", password='****'" +
                 ", email='" + email + '\'' +
                 ", userGroup='" + userGroup.getName() + '\'' +
+                ", basket='" + basket.getId() + '\'' +
                 '}';
     }
 
@@ -87,5 +86,13 @@ public class User extends AbstractModel {
 
     public void setIsVip(boolean vip) {
         isVip = vip;
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 }

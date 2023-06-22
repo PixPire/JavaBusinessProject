@@ -95,7 +95,9 @@
                         <p:outputLabel value="Podaj kod znizkowy" for="@next" />
                         <p:inputText id="specialDiscount" value="#{basketProductController.discountCode}"  required="false" />
                     </h:panelGrid>
-                    <p:commandButton value="Dodaj do koszyka" action="#{basketProductController.onSaveBasketProduct()}" process="@form" update=":mainFormProduct" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('addProductToBasketDlg').hide()"  />
+                    <p:commandButton value="Dodaj do koszyka" action="#{basketProductController.onSaveBasketProduct()}" process="@form" update=":mainFormProduct" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('addProductToBasketDlg').hide()">
+                        <p:resetInput target=":addProductToBasketDlgForm"/>
+                    </p:commandButton>
                     <p:commandButton  value="Anuluj" action="#{basketProductController.onCancelBasketProduct()}" process="@this" update=":mainFormProduct:growl" oncomplete="PF('addProductToBasketDlg').hide()"  >
                         <p:resetInput target=":addProductToBasketDlgForm"/>
                     </p:commandButton>

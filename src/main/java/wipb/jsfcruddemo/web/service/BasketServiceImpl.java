@@ -131,4 +131,9 @@ public class BasketServiceImpl implements BasketService {
         save(basket);
     }
 
+    @Override
+    public void clearBasket(Basket basket) {
+        basket.clearBasket();
+        save(basket);
+    }
 }

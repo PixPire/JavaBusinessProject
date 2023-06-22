@@ -10,9 +10,6 @@ import javax.ejb.Startup;
 import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
 import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
@@ -29,9 +26,8 @@ import java.util.logging.Logger;
     name = "java:global/JsfCrudDemoDataSource",
     className = "org.h2.jdbcx.JdbcDataSource",
     //url = "jdbc:h2:file:./h2data;",
-
-    url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
     //url = "jdbc:h2:mem:jsfcruddemo;DB_CLOSE_DELAY=-1",
+    url = "jdbc:h2:file:D:/zapisy_programow_java/JAVA_BUSINESS/10ps/uwierzytelnianie/h2data",
 
     minPoolSize = 1,
     initialPoolSize = 1,
@@ -130,8 +126,6 @@ public class Configuration {
                         User u = new User("client", pbkdf.generate("client".toCharArray()), "client@client.pl", false ,ugClient);
                         userDao.save(u);
 
-                        logger.severe("Zapisano 1 uzytkownika = " + u);
-
                         Product p = new Product("produkt testowy1", "test", new BigDecimal(100.99));
                         productDao.save(p);
                         Product p2 = new Product("produkt testowy2", "test", new BigDecimal(2000));
@@ -156,10 +150,12 @@ public class Configuration {
                         b.addProduct(p4, new BigDecimal(4), null);
                         basketDao.save(b);
 
+                        logger.severe("Zapisano klienta = " + u);
+
                         User u2 = new User();
                         u2.setLogin("admin");
                         u2.setPassword(pbkdf.generate("admin".toCharArray()));
-                        u2.setEmail("admin@admin.pl");
+                        u2.setEmail("piotr.szumowski@wp.pl");
                         u2.setUserGroup(ugAdmin);
 
                         Product p5 = new Product("produkt testowy5", "test", new BigDecimal(0.5));
@@ -172,10 +168,6 @@ public class Configuration {
 
                         Product p3 = new Product("produkt testowy3", "test", new BigDecimal(0.1));
                         productDao.save(p3);
-
-
-
-
                 }
         }
 

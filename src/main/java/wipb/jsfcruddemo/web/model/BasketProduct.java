@@ -20,12 +20,6 @@ public class BasketProduct extends AbstractModel {
 
     public BasketProduct() {}
 
-//    public BasketProduct(Basket basket, Product product, BigDecimal numberOfProductsInBasket) {
-//        this.basket = basket;
-//        this.product = product;
-//        this.numberOfProductsInBasket = numberOfProductsInBasket;
-//    }
-
     public BasketProduct(Basket basket, Product product, BigDecimal numberOfProductsInBasket, Discount discount) {
         this.basket = basket;
         this.product = product;

@@ -61,13 +61,23 @@ public class BasketProductController implements Serializable {
 
     @PostConstruct
     private void init() {
+        logger.severe("Inicjalizacja parametrow w kontrolerze basketProductController");
         String login = userBean.getLogin();
         actualUser = userService.findByLogin(login);
         actualBasket = basketDao.findByUser(actualUser);
+        logger.severe("Aktualny uzytkownik = "+ actualUser + "Aktualny koszyk = " + actualBasket);
         basketProducts = actualBasket.getBasketProducts();
-
-
         logger.severe("BasketProductController zainicjalizowany z " + basketProducts);
+    }
+
+    public void redirect(String path) {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        try {
+            externalContext.redirect(request.getContextPath() + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<BasketProduct> getBasketProducts() {
@@ -107,7 +117,6 @@ public class BasketProductController implements Serializable {
 
     public void onSaveBasketProduct() {
         logger.severe("SAVE WYWOLANE");
-        logger.severe("JAKIMS CUDEM CHYBA NAWET DZIALA CZESCIOWO");
         logger.severe("editedBasketProduct = "+editedBasketProduct);
 
         Basket bp = basketDao.findById(editedBasketProduct.getBasket().getId()).get();
@@ -128,16 +137,22 @@ public class BasketProductController implements Serializable {
             logger.severe("Aktualny uzytkownik = " + actualUser);
             if(!d.getOnlyForVips() || actualUser.getIsVip()){
                 discountService.addDiscountToBasketProduct(bp, pp, d);
-                logger.severe("Dodano znizke do produktu = ");
+                logger.severe("Dodano znizke do produktu");
                 logger.severe("Znizka = " + d.toString());
             }
         }
         editedBasketProduct = null;
+        discountCode = null;
     }
 
     public void onRemoveProductFromBasket(BasketProduct basketProduct) {
         logger.severe("Wywolalo sie chociaz usuniecie produktu z koszyka");
         basketService.deleteProductFromBasket(basketProduct.getBasket(), basketProduct.getProduct());
+    }
+
+    public void clearBasket(){
+        logger.severe("Wyczyszczono koszyk");
+        basketService.clearBasket(actualBasket);
     }
 
     public void onCancelBasketProduct() {
@@ -149,19 +164,8 @@ public class BasketProductController implements Serializable {
     public void onConfirmRealizeOrder() throws MessagingException {
         logger.severe("REALIZE ORDER WYWOLANE");
         basketService.realizeOrder(actualUser,actualBasket,address,phone);
-        redirectToThanksPage();
-    }
-
-    public void redirectToThanksPage() {
-        logger.severe("Wywolanie metody przekierowujacej na strone z podziekowaniem");
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-
-        try {
-            externalContext.redirect(request.getContextPath() + "/clientRestricted/thanksForPurchase.xhtml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        basketService.clearBasket(actualBasket);
+        redirect("/clientRestricted/thanksForPurchase.xhtml");
     }
 
     public String getDiscountCode(){
