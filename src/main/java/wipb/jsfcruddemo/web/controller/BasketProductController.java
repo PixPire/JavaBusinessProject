@@ -10,6 +10,7 @@ import wipb.jsfcruddemo.web.service.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -138,7 +139,8 @@ public class BasketProductController implements Serializable {
             logger.severe("Promocja to = " + d);
             //d.addBasketProduct(editedBasketProduct);
             logger.severe("Aktualny uzytkownik = " + actualUser);
-            if(!d.getOnlyForVips() || actualUser.getIsVip()){
+            Boolean dateCondition = LocalDateTime.now().isAfter(d.getStartedDate()) && LocalDateTime.now().isBefore(d.getEndedDate());
+            if((!d.getOnlyForVips() || actualUser.getIsVip()) && dateCondition){
                 discountService.addDiscountToBasketProduct(bp, pp, d);
                 logger.severe("Dodano znizke do produktu");
                 logger.severe("Znizka = " + d.toString());
@@ -167,6 +169,7 @@ public class BasketProductController implements Serializable {
     public void onConfirmRealizeOrder() throws MessagingException {
         logger.severe("REALIZE ORDER WYWOLANE");
         //basketService.realizeOrder(actualUser,actualBasket,address,phone);
+        purchaseService.realizeOrder(actualUser, actualBasket, address, phone);
         purchaseService.realizeOrder(actualUser, actualBasket, address, phone);
         purchaseService.archivizeBasket(actualUser, actualBasket);
         basketService.clearBasket(actualBasket);
