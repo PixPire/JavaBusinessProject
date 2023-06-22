@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition template="/WEB-INF/templates/template.xhtml">
+        <ui:define name="toolbarLoginRegistration">
+            <ui:include src="/WEB-INF/include/login_bar.xhtml"></ui:include>
+        </ui:define>
+        <ui:define name="content">
+            <h1>Historia zakupów #{userBean.login}</h1>
+        </ui:define>
+
+
+        <ui:define name="archiveContent">
+            <h:form id="mainFormArchiveOrder">
+                <p:growl id="growl" showDetail="true" showSummary="false"  keepAlive=""   />
+                <p:dataTable id="archiveOrderTable" value="#{archiveController.actualOrders}" var="archiveOrder"  rowKey="#{actualOrders.uid}"
+                             emptyMessage="Brak zamówień w historii"
+                             paginator="true"
+                             paginatorAlwaysVisible = "false"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             rows="10"
+                             rowsPerPageTemplate="10" >
+                    <f:facet name="header">
+                        Zamówienia w historii
+                    </f:facet>
+                    <p:column headerText="Ilosc" style="text-align: center;">
+                        #{archiveOrder.numberOfProductsInOrder}
+                    </p:column>
+                    <p:column headerText="Produkt" style="text-align: center;">
+                        #{archiveOrder.archiveProduct.name}
+                    </p:column>
+                    <p:column headerText="Cena Produktu" style="text-align: center;">
+                        #{archiveOrder.archiveProduct.price}
+                    </p:column>
+                    <p:column headerText="Znizka %" style="text-align: center;">
+                        #{archiveOrder.discount}
+                    </p:column>
+                    <p:column headerText="Łączne cena" style="text-align: center;">
+                        #{archiveOrder.numberOfProductsInOrder*archiveOrder.archiveProduct.price*(100-archiveOrder.discount)/100}
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

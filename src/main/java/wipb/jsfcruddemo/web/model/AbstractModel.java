@@ -20,7 +20,7 @@ public class AbstractModel {
     private String uid = UUID.randomUUID().toString();
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createDate;
+    protected LocalDateTime createDate;
     @Column(nullable = false)
     private LocalDateTime updateDate;
     @PrePersist

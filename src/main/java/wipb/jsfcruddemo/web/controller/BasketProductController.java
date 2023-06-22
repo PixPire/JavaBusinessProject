@@ -5,10 +5,7 @@ import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.dao.DiscountDao;
 import wipb.jsfcruddemo.web.dao.ProductDao;
 import wipb.jsfcruddemo.web.model.*;
-import wipb.jsfcruddemo.web.service.BasketService;
-import wipb.jsfcruddemo.web.service.BasketServiceImpl;
-import wipb.jsfcruddemo.web.service.DiscountService;
-import wipb.jsfcruddemo.web.service.UserService;
+import wipb.jsfcruddemo.web.service.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -31,6 +28,8 @@ public class BasketProductController implements Serializable {
     private static Logger logger = Logger.getLogger(BasketProductController.class.getName());
     @EJB
     private BasketService basketService;
+    @EJB
+    private PurchaseService purchaseService;
     @EJB
     private BasketDao basketDao;
     @EJB
@@ -64,13 +63,14 @@ public class BasketProductController implements Serializable {
         logger.severe("Inicjalizacja parametrow w kontrolerze basketProductController");
         String login = userBean.getLogin();
         actualUser = userService.findByLogin(login);
+
+        if(actualUser == null)
+            redirect("/index.xhtml");
+
         actualBasket = basketDao.findByUser(actualUser);
         logger.severe("Aktualny uzytkownik = "+ actualUser + "Aktualny koszyk = " + actualBasket);
         basketProducts = actualBasket.getBasketProducts();
         logger.severe("BasketProductController zainicjalizowany z " + basketProducts);
-
-        if(actualUser == null)
-            redirect("/index.xhtml");
     }
 
     public static void redirect(String path) {
@@ -166,7 +166,9 @@ public class BasketProductController implements Serializable {
     }
     public void onConfirmRealizeOrder() throws MessagingException {
         logger.severe("REALIZE ORDER WYWOLANE");
-        basketService.realizeOrder(actualUser,actualBasket,address,phone);
+        //basketService.realizeOrder(actualUser,actualBasket,address,phone);
+        purchaseService.realizeOrder(actualUser, actualBasket, address, phone);
+        purchaseService.archivizeBasket(actualUser, actualBasket);
         basketService.clearBasket(actualBasket);
         redirect("/clientRestricted/thanksForPurchase.xhtml");
     }

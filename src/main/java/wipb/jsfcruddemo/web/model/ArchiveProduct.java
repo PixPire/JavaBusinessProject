@@ -6,18 +6,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
-public class Product extends  AbstractModel{
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BasketProduct> basketProducts = new ArrayList<>();
+public class ArchiveProduct extends  AbstractModel{
+    @OneToMany(mappedBy = "archiveProduct", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArchiveOrder> archiveOrders = new ArrayList<>();
     private String name;
     private String category;
     @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price = new BigDecimal(0);
 
-    public Product(){}
-    public Product(String name, String category, BigDecimal price)
+    public ArchiveProduct(){}
+    public ArchiveProduct(String name, String category, BigDecimal price)
     {
         this.name = name;
         this.category = category;
@@ -26,7 +25,7 @@ public class Product extends  AbstractModel{
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "ArchiveProduct{" +
                 "id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", category='" + getCategory() + '\'' +
@@ -58,11 +57,17 @@ public class Product extends  AbstractModel{
         this.category = category;
     }
 
-    public List<BasketProduct> getBasketProducts() {
-        return basketProducts;
+    public List<ArchiveOrder> getArchiveOrders() {
+        return archiveOrders;
     }
-    public void setBasketProducts(List<BasketProduct> basketProducts) {
-        this.basketProducts = basketProducts;
+
+    public void setArchiveOrders(List<ArchiveOrder> archiveOrders) {
+        this.archiveOrders = archiveOrders;
+    }
+
+    public void addArchiveOrder(Long orderId, User user, BigDecimal numberOfProductsInBasket, BigDecimal discount) {
+        ArchiveOrder archiveOrder = new ArchiveOrder(orderId, user, this, numberOfProductsInBasket, discount);
+        archiveOrders.add(archiveOrder);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class Product extends  AbstractModel{
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Product other = (Product) obj;
+        ArchiveProduct other = (ArchiveProduct) obj;
         return name.equals(other.name) && category.equals(other.category) && price.equals(other.price);
     }
 }

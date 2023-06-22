@@ -16,7 +16,6 @@ public interface BasketService {
     void addEditProductToBasket(Basket basket, Product product, BigDecimal numberOfProductsInBasket, Discount discount);
     void deleteProductFromBasket(Basket basket, Product product);
     void clearBasket(Basket basket);
-    void realizeOrder(User user, Basket basket,String address,String phone) throws MessagingException;
 
 }
 

@@ -18,6 +18,9 @@ public class User extends AbstractModel {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Basket basket;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArchiveOrder> archiveOrders;
+
     private boolean isVip=false;
 
     public User() {
@@ -94,5 +97,13 @@ public class User extends AbstractModel {
 
     public void setBasket(Basket basket) {
         this.basket = basket;
+    }
+
+    public List<ArchiveOrder> getArchiveOrders() {
+        return archiveOrders;
+    }
+
+    public void setArchiveOrders(List<ArchiveOrder> archiveOrders) {
+        this.archiveOrders = archiveOrders;
     }
 }
