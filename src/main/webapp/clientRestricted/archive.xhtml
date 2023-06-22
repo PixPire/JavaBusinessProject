@@ -31,6 +31,9 @@
                     <f:facet name="header">
                         Zamówienia w historii
                     </f:facet>
+                    <p:column headerText="Id zamowienia" style="text-align: center;">
+                        #{archiveOrder.orderId}
+                    </p:column>
                     <p:column headerText="Ilosc" style="text-align: center;">
                         #{archiveOrder.numberOfProductsInOrder}
                     </p:column>

@@ -99,15 +99,22 @@ public class PurchaseServiceImpl implements PurchaseService {
         logger.severe("ARCHIVIZE WYWOLANE");
 
         for(BasketProduct bp: basket.getBasketProducts()){
-            Long orderId = (long)archiveOrderService.findAll().size() + 1L;
-            Long productId = (long)archiveProductService.findAll().size() + 1L;
-            logger.severe("ordeId = " + orderId + " productId = " + productId);
+            Long orderId = (long)archiveProductService.findAll().size() + 1L;
+            logger.severe(" orderId = " + orderId);
 
             Product p = bp.getProduct();
             ArchiveProduct ap = new ArchiveProduct(p.getName(), p.getCategory(), p.getPrice());
             archiveProductService.save(ap);
-            ArchiveOrder ao = new ArchiveOrder(productId, user, ap, bp.getNumberOfProductsInBasket(), bp.getDiscount().getValue());
+            logger.severe("zapisano Ap = " + ap);
+            logger.severe("BP = " + bp + " user = " + user);
+            ArchiveOrder ao;
+            if(bp.getDiscount() != null)
+                ao = new ArchiveOrder(orderId, user, ap, bp.getNumberOfProductsInBasket(), bp.getDiscount().getValue());
+            else
+                ao = new ArchiveOrder(orderId, user, ap, bp.getNumberOfProductsInBasket(), new BigDecimal(0));
+            logger.severe("Stworzono Ao = " + ao);
             archiveOrderService.save(ao);
+            logger.severe("zapisano Ao = " + ao);
         }
     }
 }
