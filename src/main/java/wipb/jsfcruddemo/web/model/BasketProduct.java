@@ -63,5 +63,17 @@ public class BasketProduct extends AbstractModel {
     public void setDiscount(Discount discount) {
         this.discount = discount;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BasketProduct other = (BasketProduct) obj;
+        return basket.equals(other.basket) && product.equals(other.product);
+    }
 }
 
