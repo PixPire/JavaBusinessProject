@@ -142,6 +142,14 @@ public class Configuration {
                         discountDao.save(d1);
                         Discount d2 = new Discount("ok", new BigDecimal(10),  endedDate, true);
                         discountDao.save(d2);
+                        Discount d3 = new Discount("vip", new BigDecimal(10),  endedDate, true);
+                        discountDao.save(d3);
+                        Discount d4 = new Discount("tak", new BigDecimal(10),  endedDate, false);
+                        discountDao.save(d4);
+                        LocalDateTime s1 = LocalDateTime.now().minusYears(1);
+                        LocalDateTime s2 = LocalDateTime.now().minusDays(3);
+                        Discount d5 = new Discount("nie", new BigDecimal(10),  s1, s2, false);
+                        discountDao.save(d5);
 
                         logger.severe("zapisano discount = " + d1);
 
