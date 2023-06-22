@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 @Entity
 @NamedQuery(name = "ArchiveOrder.findOrdersByUser", query ="select ao from ArchiveOrder ao where ao.user=?1")
+@NamedQuery(name= "ArchiveOrder.findMaxOrderId", query = "select max(ao.orderId) from ArchiveOrder ao")
 public class ArchiveOrder extends AbstractModel {
     @Id
     private Long orderId;

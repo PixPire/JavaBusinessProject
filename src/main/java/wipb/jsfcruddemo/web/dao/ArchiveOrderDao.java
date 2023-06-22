@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ArchiveOrderDao extends AbstractDao<ArchiveOrder>{
     List<ArchiveOrder> findByUser(User user);
+    Long findMaxOrderId();
 }

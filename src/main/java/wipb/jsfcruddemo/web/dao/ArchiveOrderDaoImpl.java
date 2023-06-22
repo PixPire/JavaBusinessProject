@@ -22,4 +22,14 @@ public class ArchiveOrderDaoImpl extends AbstractDaoJpaImpl<ArchiveOrder> implem
         List<ArchiveOrder> result = query.getResultList();
         return result;
     }
+
+    @Override
+    public Long findMaxOrderId() {
+        logger.severe("findMaxOrderId wywolal sie");
+        TypedQuery<Long> query = em.createNamedQuery( "ArchiveOrder.findMaxOrderId", Long.class);
+        List<Long> result = query.getResultList();
+        logger.severe("Wykonalo sie");
+        logger.severe(result.toString());
+        return result.get(0) == null ? 0L : result.get(0);
+    }
 }

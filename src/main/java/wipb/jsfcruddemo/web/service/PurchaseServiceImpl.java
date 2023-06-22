@@ -1,5 +1,6 @@
 package wipb.jsfcruddemo.web.service;
 
+import wipb.jsfcruddemo.web.dao.ArchiveOrderDao;
 import wipb.jsfcruddemo.web.dao.BasketDao;
 import wipb.jsfcruddemo.web.model.*;
 
@@ -93,14 +94,15 @@ public class PurchaseServiceImpl implements PurchaseService {
     private ArchiveProductService archiveProductService;
     @EJB
     private ArchiveOrderService archiveOrderService;
+    @EJB
+    private ArchiveOrderDao archiveOrderDao;
 
     @Override
     public void archivizeBasket(User user, Basket basket) {
         logger.severe("ARCHIVIZE WYWOLANE");
-
+        Long orderId = archiveOrderDao.findMaxOrderId() + 1L;//(long)archiveProductService.findAll().size() + 1L;
+        logger.severe(" orderId = " + orderId);
         for(BasketProduct bp: basket.getBasketProducts()){
-            Long orderId = (long)archiveProductService.findAll().size() + 1L;
-            logger.severe(" orderId = " + orderId);
 
             Product p = bp.getProduct();
             ArchiveProduct ap = new ArchiveProduct(p.getName(), p.getCategory(), p.getPrice());
